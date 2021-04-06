@@ -1,0 +1,42 @@
+<html>
+
+<head>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+
+<body>
+
+    <div id="app">
+
+        <video src="#"></video>
+
+        <match-timeline v-bind:match_events="match_events"></match-timeline>
+
+
+    </div>
+
+
+    <script src="components/match-timeline.js"></script>
+    <script>
+
+        const match_events = [{ 'team': 'home', 'scorer': 'Zack', 'points': 1 },
+        { 'team': 'away', 'scorer': null, 'points': 2 },
+        { 'team': 'home', 'scorer': 'Alex', 'points': 2 }]
+
+        // Vue
+        var app = new Vue({
+
+            el: '#app',
+            data: {
+                match_events: match_events
+            }
+        })
+
+    </script>
+
+</body>
+
+</html>
