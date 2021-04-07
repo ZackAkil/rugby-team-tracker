@@ -70,3 +70,37 @@ Vue.component('match-video', {
 </div>
     `
 })
+
+
+function video_time_change() {
+    const video = document.querySelector('video')
+    app.current_event = get_current_event(video.currentTime, match_events)
+    calculate_current_score(video.currentTime, match_events)
+}
+
+function get_current_event(time, events) {
+    var output = null
+    for (let index = 0; index < events.length; index++) {
+        const element = events[index]
+        if ((element.time_from <= time) && (element.time_to >= time)) {
+            return events[index]
+        }
+    }
+    return output
+}
+
+function calculate_current_score(time, events) {
+
+    var current_score = [0, 0]
+
+    for (let index = 0; index < events.length; index++) {
+        const element = events[index]
+        if (element.exact_time <= time) {
+            if (element.team == 'home')
+                current_score[0] += element.points
+            else
+                current_score[1] += element.points
+        }
+    }
+    app.current_score = current_score
+}
