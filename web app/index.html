@@ -15,26 +15,32 @@
             position: relative;
         }
 
-        #current_event {
+        #current-event, #score {
             z-index: 1;
-            padding-top: 5px;
+            padding: 5px 0 0 5px;
             width: 100%;
             position: absolute;
         }
 
-        #current_event>div {
+        #score>div{
+            width: fit-content;
+            background-color: rgb(255, 255, 255);
+            padding: 10px 14px;
+        }
+
+        #current-event>div {
             width: fit-content;
             background-color: rgb(255, 255, 255);
             margin: 0 auto;
             padding: 10px 14px;
         }
 
-        #current_event>div>h3 {
+        #current-event>div>h3 {
             margin-right: 10px;
         }
 
 
-        #current_event>div>a {
+        #current-event>div>a {
             margin-left: 5px;
         }
     </style>
@@ -54,7 +60,13 @@
 
         <div id="video-container">
 
-            <div id="current_event" v-if="current_event">
+            <div id="score">
+                <div>
+                    <span>{{current_score[0]}}</span> : <span>{{current_score[1]}}</span>
+                </div>
+            </div>
+
+            <div id="current-event" v-if="current_event">
                 <div>
                     <h3 class="scorer team-text"
                         v-bind:style="{ 'text-decoration-color': current_event.team == 'home' ? home_team.color : away_team.color }">
@@ -64,8 +76,6 @@
                         +{{current_event.points}}</span>
 
                     <a href="#">Download clip</a>
-
-
                 </div>
             </div>
 
@@ -95,6 +105,7 @@
         function video_time_change() {
             const video = document.querySelector('video')
             app.current_event = get_current_event(video.currentTime, match_events)
+            calculate_current_score(video.currentTime, match_events)
         }
 
         function get_current_event(time, events){
@@ -108,6 +119,23 @@
             return output
         }
 
+        function calculate_current_score(time, events){
+
+            var current_score = [0,0]
+
+            for (let index = 0; index < events.length; index++) {
+                const element = events[index]
+                if (element.exact_time <= time){
+                    if (element.team == 'home')
+                        current_score[0] += element.points
+                    else
+                        current_score[1] += element.points
+                }
+            }
+
+            app.current_score = current_score
+        }
+
         const match_events = [
             { 'team': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 40, 'exact_time': 45, 'time_to': 50, 'distance': 33 },
             { 'team': 'away', 'scorer': 'Someone', 'points': 2, 'time_from': 120, 'exact_time': 130, 'time_to': 140, 'distance': 5 },
@@ -118,6 +146,7 @@
 
             el: '#app',
             data: {
+                current_score: [0,0],
                 current_event: null,
                 home_team: { 'name': "Lord of the (Girl) tries", 'color': '#28e3e6' },
                 away_team: { 'name': "Panthers", 'color': 'orange' },
