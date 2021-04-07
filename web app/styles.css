@@ -38,3 +38,7 @@ header>h1 {
     text-align: center;
     font-size: 1.1em;
 }
+
+.material-icons {
+    vertical-align: text-bottom;
+}

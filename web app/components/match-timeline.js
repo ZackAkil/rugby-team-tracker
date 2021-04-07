@@ -61,6 +61,11 @@ style.innerHTML = `
     background-color: white;
 }
 
+.match-event:hover{
+    background-color:yellow;
+    cursor:pointer;
+}
+
 .scorer{
     display:inline-block;
     margin:0;
@@ -73,28 +78,29 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 
 Vue.component('match-event', {
-    props: ['event_data','home_team_color', 'away_team_color'],
+    props: ['event_data', 'home_team_color', 'away_team_color'],
     template: `
     <div class="match-event" v-bind:class="{ 'home-team-event': event_data.team == 'home',  'away-team-event': event_data.team == 'away'}">
     
     
     
-    <h3 class="scorer"  v-bind:style="{ 'text-decoration-color': event_data.team == 'home' ? home_team_color : away_team_color }"> {{event_data.scorer}} </h3>
-    <br>
-    
-
-    <span v-if="event_data.assist">
-        assist from 
-        {{event_data.assist}}
+        <h3 class="scorer"  v-bind:style="{ 'text-decoration-color': event_data.team == 'home' ? home_team_color : away_team_color }"> {{event_data.scorer}} </h3>
         <br>
-    </span>
+        
 
-    <span class="time"> {{ parseInt(event_data.time_to/60)}}'</span>
+        <span v-if="event_data.assist">
+            assist from 
+            {{event_data.assist}}
+            <br>
+        </span>
 
-    <span> {{ event_data.distance}}m</span>
+        <span class="time"> {{ parseInt(event_data.time_to/60)}}'</span>
 
-    +{{event_data.points}}  
-    
+        <span> {{ event_data.distance}}m</span>
+
+        +{{event_data.points}}  
+
+
     </div>
     `
 })
@@ -112,3 +118,12 @@ Vue.component('match-timeline', {
     </div>
     `
 })
+
+
+{/* <span class="material-icons">
+play_arrow
+</span>
+
+<span class="material-icons">
+file_download
+</span> */}
