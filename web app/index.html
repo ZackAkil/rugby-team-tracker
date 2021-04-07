@@ -62,7 +62,8 @@
 
             <div id="score">
                 <div>
-                    <span>{{current_score[0]}}</span> : <span>{{current_score[1]}}</span>
+                    <span class="team-text" v-bind:style="{ 'text-decoration-color': home_team.color}">{{current_score[0]}}</span> : 
+                    <span class="team-text" v-bind:style="{ 'text-decoration-color': away_team.color }">{{current_score[1]}}</span>
                 </div>
             </div>
 
