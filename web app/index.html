@@ -45,10 +45,19 @@
     <script src="components/match-details.js"></script>
     <script>
 
+        function jump_video_to_time(time){
+            // move video to time in seconds
+            const video = document.querySelector('video')
+            video.currentTime = time
+            video.play()
+        }
+
+
+
         const match_events = [
-            { 'team': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 479, 'time_to': 500, 'distance': 33 },
-            { 'team': 'away', 'scorer': 'Someone', 'points': 2, 'time_from': 590, 'time_to': 600, 'distance': 5 },
-            { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary', 'time_from': 700, 'time_to': 800, 'distance': 60 }
+            { 'team': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 40, 'time_to': 50, 'distance': 33 },
+            { 'team': 'away', 'scorer': 'Someone', 'points': 2, 'time_from': 120, 'time_to': 140, 'distance': 5 },
+            { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary', 'time_from': 150, 'time_to': 180, 'distance': 60 }
         ]
 
 
@@ -57,7 +66,7 @@
             el: '#app',
             data: {
                 home_team: { 'name': "Lord of the (Girl) tries", 'color': '#28e3e6' },
-                away_team: { 'name': "Tuggas", 'color': 'orange' },
+                away_team: { 'name': "Panthers", 'color': 'orange' },
                 match_events: match_events,
                 match_details: { 'date': '9th April 2021', 'location': 'East London 3G' }
             }

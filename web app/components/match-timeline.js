@@ -78,7 +78,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 Vue.component('match-event', {
     props: ['event_data', 'home_team_color', 'away_team_color'],
     template: `
-    <div class="match-event" v-bind:class="{ 'home-team-event': event_data.team == 'home',  'away-team-event': event_data.team == 'away'}">
+    <div class="match-event" 
+    v-bind:class="{ 'home-team-event': event_data.team == 'home',  'away-team-event': event_data.team == 'away'}"
+    v-on:click="jump_video_to_time(event_data.time_from)"
+    >
     
         <h3 class="scorer team-text"  v-bind:style="{ 'text-decoration-color': event_data.team == 'home' ? home_team_color : away_team_color }"> {{event_data.scorer}} </h3>
         <br>
