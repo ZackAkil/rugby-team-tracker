@@ -5,6 +5,8 @@ style.innerHTML = `
     font-size: 20px; 
     // border: red solid 2px;
     max-width:600px;
+    text-align: center;
+    margin:auto;
 }
 
 .line{
@@ -26,19 +28,20 @@ style.innerHTML = `
 }
 
 .home-team-event {
-    border: blue solid 2px;
-    box-shadow: -10px 0px 0px 0px blue;
+    margin-right: 20%;
+    border: black solid 2px;
+    // box-shadow: -10px 0px 0px 0px blue;
     
 }
 
 .away-team-event {
-    border: red solid 2px;
-    box-shadow: 10px 0px 0px 0px red;
+    margin-left: 20%;
+    border: black solid 2px;
+    // box-shadow: 10px 0px 0px 0px red;
 }
 
 .match-event{
-    margin:15px;
-    border-radius: 5px;
+    margin-top: 15px;
     padding:15px;
 }
 `;
