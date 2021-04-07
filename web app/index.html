@@ -35,18 +35,17 @@
 
         .home-team-color {
             text-decoration: underline;
-            text-decoration-color: blue;
             text-decoration-thickness: 4px;
         }
 
         .away-team-color {
             text-decoration: underline;
-            text-decoration-color: red;
             text-decoration-thickness: 4px;
         }
 
         #match-header {
             text-align: center;
+            font-size: 1.1em;
         }
     </style>
 
@@ -73,7 +72,10 @@
             <h3>{{match_date}} - {{match_location}}</h3>
         </div>
 
-        <match-timeline v-bind:match_events="match_events"></match-timeline>
+        <match-timeline 
+        v-bind:match_events="match_events"
+        v-bind:home_team_color="home_team.color"
+        v-bind:away_team_color="away_team.color"></match-timeline>
 
 
     </div>
@@ -83,9 +85,9 @@
     <script>
 
         const match_events = [
-            { 'team': 'home', 'scorer': 'Zack', 'points': 1, 'assist': 'Joe' },
-            { 'team': 'away', 'scorer': null, 'points': 2 },
-            { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary' }
+            { 'team': 'home', 'scorer': 'Zack .A', 'points': 1, 'assist': 'Joe', 'time_from':479, 'time_to': 500, 'distance':33 },
+            { 'team': 'away', 'scorer': 'Unknown', 'points': 2 , 'time_from':590, 'time_to': 600, 'distance':5},
+            { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary' , 'time_from':700, 'time_to': 800, 'distance':60}
         ]
 
         // Vue

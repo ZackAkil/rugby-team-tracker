@@ -60,21 +60,40 @@ style.innerHTML = `
     padding:15px;
     background-color: white;
 }
+
+.scorer{
+    display:inline-block;
+    margin:0;
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+}
 `;
 document.getElementsByTagName('head')[0].appendChild(style);
 
 
 
 Vue.component('match-event', {
-    props: ['event_data'],
+    props: ['event_data','home_team_color', 'away_team_color'],
     template: `
     <div class="match-event" v-bind:class="{ 'home-team-event': event_data.team == 'home',  'away-team-event': event_data.team == 'away'}">
     
-    +{{event_data.points}}  
     
-    {{event_data.scorer}}
-    from 
-    {{event_data.assist}}
+    
+    <h3 class="scorer"  v-bind:style="{ 'text-decoration-color': event_data.team == 'home' ? home_team_color : away_team_color }"> {{event_data.scorer}} </h3>
+    <br>
+    
+
+    <span v-if="event_data.assist">
+        assist from 
+        {{event_data.assist}}
+        <br>
+    </span>
+
+    <span class="time"> {{ parseInt(event_data.time_to/60)}}'</span>
+
+    <span> {{ event_data.distance}}m</span>
+
+    +{{event_data.points}}  
     
     </div>
     `
@@ -82,19 +101,14 @@ Vue.component('match-event', {
 
 
 Vue.component('match-timeline', {
-    props: ['match_events'],
-    // data: function () {
-    //     return {
-            
-    //     }
-    // },
+    props: ['match_events', 'home_team_color', 'away_team_color'],
     template: `
     <div class="match-timeline">
-        <match-event v-for="event in match_events" v-bind:event_data="event"></match-event>
+        <match-event v-for="event in match_events" 
+        v-bind:event_data="event"
+        v-bind:home_team_color="home_team_color"
+        v-bind:away_team_color="away_team_color"
+        ></match-event>
     </div>
     `
 })
-
-/* <div class="home-team-events team-events"> home</div>
-<div class="line"></div>
-<div class="away-team-events team-events"> away</div> */
