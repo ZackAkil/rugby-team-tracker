@@ -43,18 +43,14 @@ style.innerHTML = `
 
 .home-team-event {
     margin-right: 20%;
-    border: black solid 2px;
-    // box-shadow: -10px 0px 0px 0px blue;
-    
 }
 
 .away-team-event {
     margin-left: 20%;
-    border: black solid 2px;
-    // box-shadow: 10px 0px 0px 0px red;
 }
 
 .match-event{
+    border: black solid 2px;
     margin-top: 15px;
     margin-bottom: 15px;
     padding:15px;
@@ -92,7 +88,7 @@ Vue.component('match-event', {
             <br>
         </span>
 
-        <span class="time"> {{ parseInt(event_data.time_to/60)}}'</span>
+        <span class="time"> {{ parseInt(event_data.exact_time/60)}}'</span>
 
         <span> {{ event_data.distance}}m</span>
 

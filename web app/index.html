@@ -10,8 +10,25 @@
     <link href="styles.css" rel="stylesheet">
 
     <style>
-        #video-container{
+        #video-container {
             margin: 30px 0;
+            position: relative;
+        }
+
+        #current_event {
+            width: 100%;
+            height: 30px;
+            /* background-color: rgb(198, 73, 73); */
+            
+            position: absolute;
+        }
+
+        #current_event > div{
+            width: 300px;
+            height: 100%;
+            background-color: rgb(255, 255, 255);
+            border: black solid 2px;
+            margin: 0 auto;
         }
     </style>
 </head>
@@ -29,6 +46,9 @@
         </match-details>
 
         <div id="video-container">
+            <div id="current_event">
+                <div></div>
+            </div>
             <video controls src="rugby_test.mp4"></video>
         </div>
 
@@ -45,7 +65,7 @@
     <script src="components/match-details.js"></script>
     <script>
 
-        function jump_video_to_time(time){
+        function jump_video_to_time(time) {
             // move video to time in seconds
             const video = document.querySelector('video')
             video.currentTime = time
@@ -55,9 +75,9 @@
 
 
         const match_events = [
-            { 'team': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 40, 'time_to': 50, 'distance': 33 },
-            { 'team': 'away', 'scorer': 'Someone', 'points': 2, 'time_from': 120, 'time_to': 140, 'distance': 5 },
-            { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary', 'time_from': 150, 'time_to': 180, 'distance': 60 }
+            { 'team': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 40, 'exact_time': 45 ,'time_to': 50, 'distance': 33 },
+            { 'team': 'away', 'scorer': 'Someone', 'points': 2, 'time_from': 120, 'exact_time': 130, 'time_to': 140, 'distance': 5 },
+            { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary', 'time_from': 150, 'exact_time': 160, 'time_to': 180, 'distance': 60 }
         ]
 
 
