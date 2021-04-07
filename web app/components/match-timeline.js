@@ -69,8 +69,6 @@ style.innerHTML = `
 .scorer{
     display:inline-block;
     margin:0;
-    text-decoration: underline;
-    text-decoration-thickness: 4px;
 }
 `;
 document.getElementsByTagName('head')[0].appendChild(style);
@@ -84,7 +82,7 @@ Vue.component('match-event', {
     
     
     
-        <h3 class="scorer"  v-bind:style="{ 'text-decoration-color': event_data.team == 'home' ? home_team_color : away_team_color }"> {{event_data.scorer}} </h3>
+        <h3 class="scorer team-text"  v-bind:style="{ 'text-decoration-color': event_data.team == 'home' ? home_team_color : away_team_color }"> {{event_data.scorer}} </h3>
         <br>
         
 
@@ -118,12 +116,3 @@ Vue.component('match-timeline', {
     </div>
     `
 })
-
-
-{/* <span class="material-icons">
-play_arrow
-</span>
-
-<span class="material-icons">
-file_download
-</span> */}

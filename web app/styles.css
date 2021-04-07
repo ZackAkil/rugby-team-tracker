@@ -22,19 +22,9 @@ header>h1 {
     margin: 10px;
 }
 
-.home-team-color {
+.team-text {
     text-decoration: underline;
     text-decoration-thickness: 4px;
-}
-
-.away-team-color {
-    text-decoration: underline;
-    text-decoration-thickness: 4px;
-}
-
-#match-header {
-    text-align: center;
-    font-size: 1.1em;
 }
 
 .material-icons {

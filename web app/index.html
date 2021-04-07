@@ -2,13 +2,12 @@
 
 <head>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&family=Open+Sans&display=swap"
+        rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
     <link href="styles.css" rel="stylesheet">
-
 </head>
 
 
@@ -22,24 +21,19 @@
 
         <video src="#"></video>
 
-        <div id="match-header">
-            <h2> <span class="home-team-color"
-                    v-bind:style="{ 'text-decoration-color': home_team.color}">{{home_team.name}}</span>
-                vs
-                <span class="away-team-color"
-                    v-bind:style="{ 'text-decoration-color': away_team.color}">{{away_team.name}}</span>
-            </h2>
-            <h3>{{match_date}} - {{match_location}}</h3>
-        </div>
+        <match-details v-bind:home_team="home_team" v-bind:away_team="away_team" v-bind:match_details="match_details">
+        </match-details>
 
         <match-timeline v-bind:match_events="match_events" v-bind:home_team_color="home_team.color"
-            v-bind:away_team_color="away_team.color"></match-timeline>
+            v-bind:away_team_color="away_team.color">
+        </match-timeline>
 
 
     </div>
 
 
     <script src="components/match-timeline.js"></script>
+    <script src="components/match-details.js"></script>
     <script>
 
         const match_events = [
@@ -56,8 +50,7 @@
                 home_team: { 'name': "Lord of the (Girl) tries", 'color': '#28e3e6' },
                 away_team: { 'name': "Tuggas", 'color': 'orange' },
                 match_events: match_events,
-                match_date: '9th April 2021',
-                match_location: 'East London 3G'
+                match_details: { 'date': '9th April 2021', 'location': 'East London 3G' }
             }
         })
 
