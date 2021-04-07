@@ -1,8 +1,44 @@
 <html>
 
 <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Inconsolata', monospace;
+        }
+
+        header{
+            border-bottom: 3px solid black;
+        }
+        header > h1{
+            margin-bottom: 10px;
+        }
+
+        .home-team-color {
+            text-decoration: underline;
+            text-decoration-color: blue;
+            text-decoration-thickness: 4px;
+        }
+
+        .away-team-color {
+            text-decoration: underline;
+            text-decoration-color: red;
+            text-decoration-thickness: 4px;
+        }
+    </style>
 
 </head>
 
@@ -11,7 +47,18 @@
 
     <div id="app">
 
+        <header>
+            <h1>FiftyTen</h1>
+        </header>
+
         <video src="#"></video>
+
+        <h2> <span class="home-team-color"
+                v-bind:style="{ 'text-decoration-color': home_team.color}">{{home_team.name}}</span>
+            vs
+            <span class="away-team-color"
+                v-bind:style="{ 'text-decoration-color': away_team.color}">{{away_team.name}}</span>
+        </h2>
 
         <match-timeline v-bind:match_events="match_events"></match-timeline>
 
@@ -22,15 +69,19 @@
     <script src="components/match-timeline.js"></script>
     <script>
 
-        const match_events = [{ 'team': 'home', 'scorer': 'Zack', 'points': 1 },
-        { 'team': 'away', 'scorer': null, 'points': 2 },
-        { 'team': 'home', 'scorer': 'Alex', 'points': 2 }]
+        const match_events = [
+            { 'team': 'home', 'scorer': 'Zack', 'points': 1, 'assist': 'Joe' },
+            { 'team': 'away', 'scorer': null, 'points': 2 },
+            { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary' }
+        ]
 
         // Vue
         var app = new Vue({
 
             el: '#app',
             data: {
+                home_team: { 'name': "Lord of the (Girl) tries", 'color': '#28e3e6' },
+                away_team: { 'name': "Tuggas", 'color': 'orange' },
                 match_events: match_events
             }
         })
