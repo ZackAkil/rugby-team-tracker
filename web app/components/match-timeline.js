@@ -80,12 +80,9 @@ Vue.component('match-event', {
     template: `
     <div class="match-event" v-bind:class="{ 'home-team-event': event_data.team == 'home',  'away-team-event': event_data.team == 'away'}">
     
-    
-    
         <h3 class="scorer team-text"  v-bind:style="{ 'text-decoration-color': event_data.team == 'home' ? home_team_color : away_team_color }"> {{event_data.scorer}} </h3>
         <br>
         
-
         <span v-if="event_data.assist">
             assist from 
             {{event_data.assist}}
@@ -97,7 +94,6 @@ Vue.component('match-event', {
         <span> {{ event_data.distance}}m</span>
 
         +{{event_data.points}}  
-
 
     </div>
     `

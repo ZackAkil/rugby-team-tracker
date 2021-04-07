@@ -8,6 +8,12 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 
     <link href="styles.css" rel="stylesheet">
+
+    <style>
+        #video-container{
+            margin: 30px 0;
+        }
+    </style>
 </head>
 
 
@@ -19,11 +25,13 @@
             <h1>FiftyTen</h1>
         </header>
 
-        <!-- <video src="#"></video> -->
-        <br><br><br><br><br><br><br><br><br><br><br><br>
-
         <match-details v-bind:home_team="home_team" v-bind:away_team="away_team" v-bind:match_details="match_details">
         </match-details>
+
+        <div id="video-container">
+            <video controls src="rugby_test.mp4"></video>
+        </div>
+
 
         <match-timeline v-bind:match_events="match_events" v-bind:home_team_color="home_team.color"
             v-bind:away_team_color="away_team.color">
@@ -39,7 +47,7 @@
 
         const match_events = [
             { 'team': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 479, 'time_to': 500, 'distance': 33 },
-            { 'team': 'away', 'scorer': 'Unknown', 'points': 2, 'time_from': 590, 'time_to': 600, 'distance': 5 },
+            { 'team': 'away', 'scorer': 'Someone', 'points': 2, 'time_from': 590, 'time_to': 600, 'distance': 5 },
             { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary', 'time_from': 700, 'time_to': 800, 'distance': 60 }
         ]
 
