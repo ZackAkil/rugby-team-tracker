@@ -94,7 +94,6 @@
 
         function video_time_change() {
             const video = document.querySelector('video')
-            console.log(video.currentTime)
             app.current_event = get_current_event(video.currentTime, match_events)
         }
 
@@ -119,7 +118,7 @@
 
             el: '#app',
             data: {
-                current_event: match_events[0],
+                current_event: null,
                 home_team: { 'name': "Lord of the (Girl) tries", 'color': '#28e3e6' },
                 away_team: { 'name': "Panthers", 'color': 'orange' },
                 match_events: match_events,
