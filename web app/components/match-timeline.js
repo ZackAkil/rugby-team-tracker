@@ -7,6 +7,20 @@ style.innerHTML = `
     max-width:600px;
     text-align: center;
     margin:auto;
+    position: relative;
+    padding: 20px;
+}
+
+.match-timeline::after{
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: black;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+    z-index:-1;
 }
 
 .line{
@@ -42,7 +56,9 @@ style.innerHTML = `
 
 .match-event{
     margin-top: 15px;
+    margin-bottom: 15px;
     padding:15px;
+    background-color: white;
 }
 `;
 document.getElementsByTagName('head')[0].appendChild(style);
