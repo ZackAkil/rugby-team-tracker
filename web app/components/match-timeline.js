@@ -88,7 +88,7 @@ Vue.component('match-event', {
             <br>
         </span>
 
-        <span class="time"> {{ parseInt(event_data.exact_time/60)}}'</span>
+        <span> {{ parseInt(event_data.exact_time/60)}}'</span>
 
         <span> {{ event_data.distance}}m</span>
 

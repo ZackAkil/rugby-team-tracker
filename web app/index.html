@@ -16,20 +16,29 @@
         }
 
         #current_event {
+            z-index: 1;
+            padding-top: 5px;
             width: 100%;
-            height: 30px;
-            /* background-color: rgb(198, 73, 73); */
-            
             position: absolute;
         }
 
-        #current_event > div{
-            width: 300px;
-            height: 100%;
+        #current_event>div {
+            width: fit-content;
             background-color: rgb(255, 255, 255);
-            border: black solid 2px;
             margin: 0 auto;
+            padding: 10px 14px;
         }
+
+        #current_event>div>h3{
+            margin-right: 10px;
+        }
+
+
+        #current_event>div>a{
+            margin-left: 5px;
+        }
+
+        
     </style>
 </head>
 
@@ -46,10 +55,23 @@
         </match-details>
 
         <div id="video-container">
-            <div id="current_event">
-                <div></div>
+
+            <div id="current_event" v-if="current_event">
+                <div>
+                    <h3 class="scorer team-text"
+                        v-bind:style="{ 'text-decoration-color': current_event.team == 'home' ? home_team.color : away_team.color }">
+                        {{current_event.scorer}} </h3>
+
+                    <span> {{ parseInt(current_event.exact_time/60)}}' {{ current_event.distance}}m +{{current_event.points}}</span>
+
+                    <a href="#">Download clip</a>
+
+                    
+                </div>
             </div>
+
             <video controls src="rugby_test.mp4"></video>
+
         </div>
 
 
@@ -72,19 +94,17 @@
             video.play()
         }
 
-
-
         const match_events = [
-            { 'team': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 40, 'exact_time': 45 ,'time_to': 50, 'distance': 33 },
+            { 'team': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 40, 'exact_time': 45, 'time_to': 50, 'distance': 33 },
             { 'team': 'away', 'scorer': 'Someone', 'points': 2, 'time_from': 120, 'exact_time': 130, 'time_to': 140, 'distance': 5 },
             { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary', 'time_from': 150, 'exact_time': 160, 'time_to': 180, 'distance': 60 }
         ]
-
 
         var app = new Vue({
 
             el: '#app',
             data: {
+                current_event: match_events[0],
                 home_team: { 'name': "Lord of the (Girl) tries", 'color': '#28e3e6' },
                 away_team: { 'name': "Panthers", 'color': 'orange' },
                 match_events: match_events,
