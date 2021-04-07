@@ -2,52 +2,12 @@
 
 <head>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&family=Open+Sans&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-    <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
-            min-width: 500px;
-            max-width: 1000px;
-            margin-left:auto;
-            margin-right:auto;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'Inconsolata', monospace;
-        }
-
-        header {
-            border-bottom: 3px solid black;
-        }
-
-        header>h1 {
-            margin-bottom: 10px;
-        }
-
-        .home-team-color {
-            text-decoration: underline;
-            text-decoration-thickness: 4px;
-        }
-
-        .away-team-color {
-            text-decoration: underline;
-            text-decoration-thickness: 4px;
-        }
-
-        #match-header {
-            text-align: center;
-            font-size: 1.1em;
-        }
-    </style>
+    <link href="styles.css" rel="stylesheet">
 
 </head>
 
@@ -72,10 +32,8 @@
             <h3>{{match_date}} - {{match_location}}</h3>
         </div>
 
-        <match-timeline 
-        v-bind:match_events="match_events"
-        v-bind:home_team_color="home_team.color"
-        v-bind:away_team_color="away_team.color"></match-timeline>
+        <match-timeline v-bind:match_events="match_events" v-bind:home_team_color="home_team.color"
+            v-bind:away_team_color="away_team.color"></match-timeline>
 
 
     </div>
@@ -85,12 +43,12 @@
     <script>
 
         const match_events = [
-            { 'team': 'home', 'scorer': 'Zack .A', 'points': 1, 'assist': 'Joe', 'time_from':479, 'time_to': 500, 'distance':33 },
-            { 'team': 'away', 'scorer': 'Unknown', 'points': 2 , 'time_from':590, 'time_to': 600, 'distance':5},
-            { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary' , 'time_from':700, 'time_to': 800, 'distance':60}
+            { 'team': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 479, 'time_to': 500, 'distance': 33 },
+            { 'team': 'away', 'scorer': 'Unknown', 'points': 2, 'time_from': 590, 'time_to': 600, 'distance': 5 },
+            { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary', 'time_from': 700, 'time_to': 800, 'distance': 60 }
         ]
 
-        // Vue
+
         var app = new Vue({
 
             el: '#app',
