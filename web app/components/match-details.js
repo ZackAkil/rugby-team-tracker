@@ -9,6 +9,7 @@ style.innerHTML = `
 
 .match-header>h3{
     color: gray;
+    font-weight: 400;
 }
 
 `;
