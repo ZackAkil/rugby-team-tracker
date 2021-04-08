@@ -7,7 +7,7 @@ style.innerHTML = `
     text-align: center;
     margin:auto;
     position: relative;
-    padding: 20px 0 0 0;
+    padding: 20px 20px 0 20px
 }
 
 .match-timeline::after{
