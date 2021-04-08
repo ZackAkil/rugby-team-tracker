@@ -78,7 +78,7 @@ Vue.component('match-video', {
 function video_time_change() {
     const video = document.querySelector('video')
     app.current_event = get_current_event(video.currentTime, match_events)
-    calculate_current_score(video.currentTime, match_events)
+    app.current_score = get_score_at_time(video.currentTime, match_events)
 }
 
 function get_current_event(time, events) {
@@ -92,7 +92,7 @@ function get_current_event(time, events) {
     return output
 }
 
-function calculate_current_score(time, events) {
+function get_score_at_time(time, events) {
 
     var current_score = [0, 0]
 
@@ -105,5 +105,5 @@ function calculate_current_score(time, events) {
                 current_score[1] += element.points
         }
     }
-    app.current_score = current_score
+    return current_score
 }

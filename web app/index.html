@@ -31,14 +31,15 @@
         </match-video>
 
         <match-timeline v-bind:match_events="match_events" v-bind:home_team_color="home_team.color"
-            v-bind:away_team_color="away_team.color">
+            v-bind:away_team_color="away_team.color" v-bind:half_time_mark="half_time_mark">
         </match-timeline>
 
     </div>
-
+    
+    <script src="components/match-video.js"></script>
     <script src="components/match-timeline.js"></script>
     <script src="components/match-details.js"></script>
-    <script src="components/match-video.js"></script>
+    
     <script>
 
         function jump_video_to_time(time) {
@@ -62,7 +63,8 @@
                 home_team: { 'name': "Lord of the (Girl) tries", 'color': '#28e3e6' },
                 away_team: { 'name': "Panthers", 'color': 'orange' },
                 match_events: match_events,
-                match_details: { 'date': '9th April 2021', 'location': 'East London 3G' }
+                match_details: { 'date': '9th April 2021', 'location': 'East London 3G' },
+                half_time_mark: 100
             }
         })
 
