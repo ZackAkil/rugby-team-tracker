@@ -7,6 +7,10 @@ style.innerHTML = `
     font-size: 1.1em;
 }
 
+.match-header>h3{
+    color: gray;
+}
+
 `;
 document.getElementsByTagName('head')[0].appendChild(style);
 
