@@ -58,7 +58,7 @@ style.innerHTML = `
 }
 
 .match-event:hover{
-    background-color:yellow;
+    border-style: dashed;
     cursor:pointer;
 }
 
