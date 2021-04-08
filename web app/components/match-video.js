@@ -33,7 +33,9 @@ style.innerHTML = `
 
 
 .current-event>div>a {
+    font-family: 'Inconsolata', monospace;
     margin-left: 5px;
+    color: #5d5d5d;
 }
 
 `;
