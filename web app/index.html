@@ -9,7 +9,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Open+Sans&display=swap"
         rel="stylesheet">
 
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-firestore.js"></script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
 
     <link href="styles.css" rel="stylesheet">
 
@@ -39,8 +44,26 @@
     <script src="components/match-video.js"></script>
     <script src="components/match-timeline.js"></script>
     <script src="components/match-details.js"></script>
-    
+
     <script>
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyCJI2WRy12GqQQnQO4AbamEaiR0zwG8vdw",
+            authDomain: "rugby-video-app.firebaseapp.com",
+            projectId: "rugby-video-app",
+            storageBucket: "rugby-video-app.appspot.com",
+            messagingSenderId: "726446431890",
+            appId: "1:726446431890:web:c4caf3b2f1ca5edc80104b",
+            measurementId: "G-VGCS0MFPZB"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        var db = firebase.firestore();
+
+        Vue.use(Vuefire.firestorePlugin)
 
         function jump_video_to_time(time) {
             const video = document.querySelector('video')
@@ -65,6 +88,9 @@
                 match_events: match_events,
                 match_details: { 'date': '9th April 2021', 'location': 'East London 3G' },
                 half_time_mark: 100
+            },
+            firestore: {
+                match: db.collection("matches").doc("s0yhVUV8mQgFdIKFeSkO")
             }
         })
 
