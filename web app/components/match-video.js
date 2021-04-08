@@ -61,7 +61,7 @@ Vue.component('match-video', {
 
             <span>{{ current_event.distance}}m</span>
 
-            <a href="#">Download clip</a>
+            <a href="#">download clip</a>
         </div>
     </div>
 
