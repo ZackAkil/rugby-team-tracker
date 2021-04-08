@@ -36,7 +36,7 @@ style.innerHTML = `
     font-family: 'Inconsolata', monospace;
     font-weight: 700;
     margin-left: 5px;
-    color: #5d5d5d;
+    color: gray;
 }
 
 `;
