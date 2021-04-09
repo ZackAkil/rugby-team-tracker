@@ -31,7 +31,6 @@ style.innerHTML = `
     margin-right: 10px;
 }
 
-
 .current-event>div>a {
     font-family: 'Inconsolata', monospace;
     font-weight: 700;
@@ -41,7 +40,6 @@ style.innerHTML = `
 
 `;
 document.getElementsByTagName('head')[0].appendChild(style);
-
 
 
 Vue.component('match-video', {
@@ -64,7 +62,7 @@ Vue.component('match-video', {
 
             <span>{{ current_event.run_distance}}m</span>
 
-            <a href="#">download clip</a>
+            <a v-bind:href="current_event.video_clip_url" target="_blank">download clip</a>
         </div>
     </div>
 
