@@ -65,52 +65,22 @@
             routes: []
         });
 
-        function jump_video_to_time(time) {
-            const video = document.querySelector('video')
-            video.currentTime = time
-            video.play()
-        }
-
-        const match_events = [
-            { 'match_side': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 40, 'video_seconds_exact': 45, 'time_to': 50, 'distance': 33 },
-            { 'match_side': 'away', 'scorer': 'Someone', 'points': 2, 'time_from': 120, 'video_seconds_exact': 130, 'time_to': 140, 'distance': 5 },
-            { 'match_side': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary', 'time_from': 150, 'video_seconds_exact': 160, 'time_to': 180, 'distance': 60 }
-        ]
-
-        const home_team = { 'name': "Lord of the (Girl) tries", 'color': '#28e3e6' }
-        const away_team = { 'name': "Panthers", 'color': 'orange' }
-
-        const match_details = { 'date': '9th April 2021', 'location': 'East London 3G' }
-
         var app = new Vue({
             router,
-
             el: '#app',
             data: {
                 match: null,
                 current_score: [0, 0],
                 current_event: null,
-                // match_events: match_events,
-            },
-            computed: {
-                home_team_id: function () {
-                    return this.match.home_team.id
-                },
-                away_team_id: function () {
-                    return this.match.away_team.id
-                }
             },
             mounted: function () {
                 match_id = this.$route.query.match
-                console.log(match_id)
+                console.log('fetching match data for match', match_id)
                 // get match data
                 const match_ref = db.collection('matches').doc(match_id)
                 this.$bind('match', match_ref)
-                // // get score data
-                // this.$bind('scores', db.collection('scores').where("match", "==", match_ref))
             },
         })
-
 
     </script>
 

@@ -105,3 +105,9 @@ function get_score_at_time(time, events) {
     }
     return current_score
 }
+
+function jump_video_to_time(time) {
+    const video = document.querySelector('video')
+    video.currentTime = time
+    video.play()
+}
