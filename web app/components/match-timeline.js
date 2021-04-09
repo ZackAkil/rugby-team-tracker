@@ -13,7 +13,7 @@ style.innerHTML = `
 .match-timeline::after{
     content: '';
     position: absolute;
-    width: 4px;
+    width: 3px;
     background-color: black;
     top: 0;
     bottom: 0;
