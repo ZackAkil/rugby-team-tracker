@@ -68,7 +68,7 @@ Vue.component('match-video', {
         </div>
     </div>
 
-    <video controls src="rugby_test.mp4" ontimeupdate="video_time_change()"></video>
+    <video controls v-bind:src="match_details.video_url" ontimeupdate="video_time_change()"></video>
 
 </div>
     `
