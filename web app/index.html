@@ -28,8 +28,8 @@
             <h1>FiftyTen</h1>
         </header>
         
-        <div v-if="match" >
-            
+        <section v-if="match" >
+
             <match-details v-bind:match_details="match"></match-details>
 
             <match-video v-bind:match_details="match" v-bind:current_score="current_score"
@@ -38,7 +38,7 @@
 
             <match-timeline v-bind:match_details="match"></match-timeline>
 
-        </div>
+        </section>
 
     </div>
 
