@@ -68,26 +68,30 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 
 
+
+
 Vue.component('match-event', {
     props: ['event_data', 'home_team_color', 'away_team_color'],
     template: `
     <div class="match-event" 
-    v-bind:class="{ 'home-team-event': event_data.team == 'home',  'away-team-event': event_data.team == 'away'}"
-    v-on:click="jump_video_to_time(event_data.time_from)"
+    v-bind:class="{ 'home-team-event': event_data.match_side == 'home',  'away-team-event': event_data.match_side == 'away'}"
+    v-on:click="jump_video_to_time(event_data.video_seconds_start)"
     >
-    
-        <h3 class="scorer team-text"  v-bind:style="{ 'text-decoration-color': event_data.team == 'home' ? home_team_color : away_team_color }"> {{event_data.scorer}} </h3>
+        <h3 class="scorer team-text"  
+        v-bind:style="{'text-decoration-color': event_data.match_side == 'home' ? home_team_color : away_team_color}"> 
+        {{event_data.player.name}} 
+        </h3>
         <br>
-        
-        <span v-if="event_data.assist">
-            assist from 
-            {{event_data.assist}}
-            <br>
+
+        <span v-if="event_data.asisted_from.length > 0">
+        assist from 
+        <span v-for="assistor in event_data.asisted_from" >{{assistor.name}}</span>
+        <br>
         </span>
 
-        <span> {{ parseInt(event_data.exact_time/60)}}'</span>
+        <span> {{ parseInt(event_data.video_seconds_exact/60)}}'</span>
 
-        <span> {{ event_data.distance}}m</span>
+        <span> {{ event_data.run_distance}}m</span>
 
         +{{event_data.points}}  
 
@@ -97,41 +101,55 @@ Vue.component('match-event', {
 
 
 Vue.component('match-timeline', {
-    props: ['match_events', 'home_team_color', 'away_team_color', 'half_time_mark'],
+    props: ['match_details'],
     computed: {
         halftime_score: function () {
-            return get_score_at_time(this.half_time_mark, this.match_events)
+            return get_score_at_time(this.match_details.video_halftime_seconds, this.match_details.scores)
         },
         fulltime_score: function () {
-            return get_score_at_time(Infinity, this.match_events)
+            return get_score_at_time(Infinity, this.match_details.scores)
+        },
+        first_half_scores: function () {
+            return this.match_details.scores.filter(event => event.video_seconds_exact <= this.match_details.video_halftime_seconds).sort(function (a, b) {
+                return a.video_seconds_exact - b.video_seconds_exact;
+            })
+        },
+        second_half_scores: function () {
+            return this.match_details.scores.filter(event => event.video_seconds_exact > this.match_details.video_halftime_seconds).sort(function (a, b) {
+                return a.video_seconds_exact - b.video_seconds_exact;
+            })
+
         }
+
     },
     template: `
     <div class="match-timeline">
 
-        <match-event v-for="event in match_events.filter(event => event.exact_time <= half_time_mark)" 
+        <match-event v-for="event in first_half_scores" 
+        :key="event.video_seconds_exact"
         v-bind:event_data="event"
-        v-bind:home_team_color="home_team_color"
-        v-bind:away_team_color="away_team_color"
+        v-bind:home_team_color="match_details.home_team.color"
+        v-bind:away_team_color="match_details.away_team.color"
         ></match-event>
 
         <div class="timeline-score"><span>Half time</span>
             <div>
-                <span class="team-text" v-bind:style="{ 'text-decoration-color': home_team_color}">{{halftime_score[0]}}</span> : 
-                <span class="team-text" v-bind:style="{ 'text-decoration-color': away_team_color}">{{halftime_score[1]}}</span>
+                <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.home_team.color}">{{halftime_score[0]}}</span> : 
+                <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.away_team.color}">{{halftime_score[1]}}</span>
             </div>
         </div>
 
-        <match-event v-for="event in match_events.filter(event => event.exact_time > half_time_mark)" 
+        <match-event v-for="event in second_half_scores" 
+        :key="event.video_seconds_exact"
         v-bind:event_data="event"
-        v-bind:home_team_color="home_team_color"
-        v-bind:away_team_color="away_team_color"
+        v-bind:home_team_color="match_details.home_team.color"
+        v-bind:away_team_color="match_details.away_team.color"
         ></match-event>
 
         <div class="timeline-score"><span>Full time</span>
             <div>
-                <span class="team-text" v-bind:style="{ 'text-decoration-color': home_team_color}">{{fulltime_score[0]}}</span> : 
-                <span class="team-text" v-bind:style="{ 'text-decoration-color': away_team_color}">{{fulltime_score[1]}}</span>
+                <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.home_team.color}">{{fulltime_score[0]}}</span> : 
+                <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.away_team.color}">{{fulltime_score[1]}}</span>
             </div>
         </div>
 

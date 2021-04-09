@@ -45,24 +45,24 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 
 Vue.component('match-video', {
-    props: ['home_team', 'away_team', 'current_score', 'current_event'],
+    props: ['match_details', 'current_score', 'current_event'],
     template: `
     <div class="video-container">
 
     <div class="score">
         <div>
-            <span class="team-text" v-bind:style="{ 'text-decoration-color': home_team.color}">{{current_score[0]}}</span> : 
-            <span class="team-text" v-bind:style="{ 'text-decoration-color': away_team.color }">{{current_score[1]}}</span>
+            <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.home_team.color}">{{current_score[0]}}</span> : 
+            <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.away_team.color }">{{current_score[1]}}</span>
         </div>
     </div>
 
     <div class="current-event" v-if="current_event">
         <div>
             <h3 class="scorer team-text"
-                v-bind:style="{ 'text-decoration-color': current_event.team == 'home' ? home_team.color : away_team.color }">
-                {{current_event.scorer}} </h3>
+                v-bind:style="{ 'text-decoration-color': current_event.match_side == 'home' ? match_details.home_team.color : match_details.away_team.color }">
+                {{current_event.player.name}} </h3>
 
-            <span>{{ current_event.distance}}m</span>
+            <span>{{ current_event.run_distance}}m</span>
 
             <a href="#">download clip</a>
         </div>
@@ -77,15 +77,15 @@ Vue.component('match-video', {
 
 function video_time_change() {
     const video = document.querySelector('video')
-    app.current_event = get_current_event(video.currentTime, match_events)
-    app.current_score = get_score_at_time(video.currentTime, match_events)
+    app.current_event = get_current_event(video.currentTime, app.match.scores)
+    app.current_score = get_score_at_time(video.currentTime, app.match.scores)
 }
 
 function get_current_event(time, events) {
     var output = null
     for (let index = 0; index < events.length; index++) {
         const element = events[index]
-        if ((element.time_from <= time) && (element.time_to >= time)) {
+        if ((element.video_seconds_start <= time) && (element.video_seconds_end >= time)) {
             return events[index]
         }
     }
@@ -98,8 +98,8 @@ function get_score_at_time(time, events) {
 
     for (let index = 0; index < events.length; index++) {
         const element = events[index]
-        if (element.exact_time <= time) {
-            if (element.team == 'home')
+        if (element.video_seconds_exact <= time) {
+            if (element.match_side == 'home')
                 current_score[0] += element.points
             else
                 current_score[1] += element.points

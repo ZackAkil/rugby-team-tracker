@@ -29,15 +29,13 @@
             <h1>FiftyTen</h1>
         </header>
 
-        <match-details v-bind:match_details="match"></match-details>
+        <match-details v-if="match" v-bind:match_details="match"></match-details>
 
-        <match-video v-bind:home_team="home_team" v-bind:away_team="away_team" v-bind:current_score="current_score"
+        <match-video v-if="match" v-bind:match_details="match" v-bind:current_score="current_score"
             v-bind:current_event="current_event">
         </match-video>
 
-        <match-timeline v-if="match" v-bind:match_events="match_events" v-bind:home_team_color="match.home_team.color"
-            v-bind:away_team_color="match.away_team.color" v-bind:half_time_mark="match.video_halftime_seconds">
-        </match-timeline>
+        <match-timeline v-if="match" v-bind:match_details="match"></match-timeline>
 
     </div>
 
@@ -74,10 +72,15 @@
         }
 
         const match_events = [
-            { 'team': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 40, 'exact_time': 45, 'time_to': 50, 'distance': 33 },
-            { 'team': 'away', 'scorer': 'Someone', 'points': 2, 'time_from': 120, 'exact_time': 130, 'time_to': 140, 'distance': 5 },
-            { 'team': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary', 'time_from': 150, 'exact_time': 160, 'time_to': 180, 'distance': 60 }
+            { 'match_side': 'home', 'scorer': 'Zack.A', 'points': 1, 'assist': 'Joe', 'time_from': 40, 'video_seconds_exact': 45, 'time_to': 50, 'distance': 33 },
+            { 'match_side': 'away', 'scorer': 'Someone', 'points': 2, 'time_from': 120, 'video_seconds_exact': 130, 'time_to': 140, 'distance': 5 },
+            { 'match_side': 'home', 'scorer': 'Alex', 'points': 2, 'assist': 'Mary', 'time_from': 150, 'video_seconds_exact': 160, 'time_to': 180, 'distance': 60 }
         ]
+
+        const home_team = { 'name': "Lord of the (Girl) tries", 'color': '#28e3e6' }
+        const away_team = { 'name': "Panthers", 'color': 'orange' }
+
+        const match_details = { 'date': '9th April 2021', 'location': 'East London 3G' }
 
         var app = new Vue({
             router,
@@ -87,11 +90,15 @@
                 match: null,
                 current_score: [0, 0],
                 current_event: null,
-                home_team: { 'name': "Lord of the (Girl) tries", 'color': '#28e3e6' },
-                away_team: { 'name': "Panthers", 'color': 'orange' },
-                match_events: match_events,
-                match_details: { 'date': '9th April 2021', 'location': 'East London 3G' },
-                half_time_mark: 100
+                // match_events: match_events,
+            },
+            computed: {
+                home_team_id: function () {
+                    return this.match.home_team.id
+                },
+                away_team_id: function () {
+                    return this.match.away_team.id
+                }
             },
             mounted: function () {
                 match_id = this.$route.query.match
@@ -99,8 +106,8 @@
                 // get match data
                 const match_ref = db.collection('matches').doc(match_id)
                 this.$bind('match', match_ref)
-                // get score data
-                this.$bind('scores', db.collection('scores').where("match", "==", match_ref))
+                // // get score data
+                // this.$bind('scores', db.collection('scores').where("match", "==", match_ref))
             },
         })
 
