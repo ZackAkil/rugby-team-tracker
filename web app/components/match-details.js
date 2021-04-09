@@ -18,16 +18,16 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 
 Vue.component('match-details', {
-    props: ['home_team', 'away_team', 'match_details'],
+    props: ['match_details'],
     template: `
-    <div class="match-header">
+    <div v-if="match_details" class="match-header">
         <h2> <span class="team-text"
-                v-bind:style="{ 'text-decoration-color': home_team.color}">{{home_team.name}}</span>
+                v-bind:style="{ 'text-decoration-color': match_details.home_team.color}">{{match_details.home_team.name}}</span>
             vs
             <span class="team-text"
-                v-bind:style="{ 'text-decoration-color': away_team.color}">{{away_team.name}}</span>
+                v-bind:style="{ 'text-decoration-color': match_details.away_team.color}">{{match_details.away_team.name}}</span>
         </h2>
-        <h3>{{match_details.date}} - {{match_details.location}}</h3>
+        <h3>{{match_details.date.toDate().toString().split('GMT')[0]}} - {{match_details.location.name}}</h3>
     </div>
     `
 })

@@ -15,6 +15,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
     <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.5.1/vue-router.min.js"></script>
 
     <link href="styles.css" rel="stylesheet">
 
@@ -28,15 +29,14 @@
             <h1>FiftyTen</h1>
         </header>
 
-        <match-details v-bind:home_team="home_team" v-bind:away_team="away_team" v-bind:match_details="match_details">
-        </match-details>
+        <match-details v-bind:match_details="match"></match-details>
 
         <match-video v-bind:home_team="home_team" v-bind:away_team="away_team" v-bind:current_score="current_score"
             v-bind:current_event="current_event">
         </match-video>
 
-        <match-timeline v-bind:match_events="match_events" v-bind:home_team_color="home_team.color"
-            v-bind:away_team_color="away_team.color" v-bind:half_time_mark="half_time_mark">
+        <match-timeline v-if="match" v-bind:match_events="match_events" v-bind:home_team_color="match.home_team.color"
+            v-bind:away_team_color="match.away_team.color" v-bind:half_time_mark="match.video_halftime_seconds">
         </match-timeline>
 
     </div>
@@ -47,8 +47,6 @@
 
     <script>
 
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         var firebaseConfig = {
             apiKey: "AIzaSyCJI2WRy12GqQQnQO4AbamEaiR0zwG8vdw",
             authDomain: "rugby-video-app.firebaseapp.com",
@@ -58,12 +56,16 @@
             appId: "1:726446431890:web:c4caf3b2f1ca5edc80104b",
             measurementId: "G-VGCS0MFPZB"
         };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
 
+        firebase.initializeApp(firebaseConfig);
         var db = firebase.firestore();
 
         Vue.use(Vuefire.firestorePlugin)
+
+        var router = new VueRouter({
+            mode: 'history',
+            routes: []
+        });
 
         function jump_video_to_time(time) {
             const video = document.querySelector('video')
@@ -78,9 +80,11 @@
         ]
 
         var app = new Vue({
+            router,
 
             el: '#app',
             data: {
+                match: null,
                 current_score: [0, 0],
                 current_event: null,
                 home_team: { 'name': "Lord of the (Girl) tries", 'color': '#28e3e6' },
@@ -89,10 +93,17 @@
                 match_details: { 'date': '9th April 2021', 'location': 'East London 3G' },
                 half_time_mark: 100
             },
-            firestore: {
-                match: db.collection("matches").doc("s0yhVUV8mQgFdIKFeSkO")
-            }
+            mounted: function () {
+                match_id = this.$route.query.match
+                console.log(match_id)
+                // get match data
+                const match_ref = db.collection('matches').doc(match_id)
+                this.$bind('match', match_ref)
+                // get score data
+                this.$bind('scores', db.collection('scores').where("match", "==", match_ref))
+            },
         })
+
 
     </script>
 
