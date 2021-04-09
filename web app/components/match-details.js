@@ -12,10 +12,13 @@ style.innerHTML = `
     font-weight: 400;
 }
 
+.match-header>h2{
+    line-height: 1.4em;
+}
+
 .match-header>h2>span{
     display: inline-block;
 }
-
 `;
 document.getElementsByTagName('head')[0].appendChild(style);
 
