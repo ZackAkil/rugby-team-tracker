@@ -16,7 +16,7 @@
     <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.5.1/vue-router.min.js"></script>
 
-    <link href="styles.css" rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet">
 </head>
 
 <body>
@@ -26,8 +26,8 @@
         <header>
             <h1>FiftyTen</h1>
         </header>
-        
-        <section v-if="match" >
+
+        <section v-if="match">
 
             <match-details v-bind:match_details="match"></match-details>
 
@@ -41,9 +41,9 @@
 
     </div>
 
-    <script src="components/match-video.js"></script>
-    <script src="components/match-timeline.js"></script>
-    <script src="components/match-details.js"></script>
+    <script src="/components/match-video.js"></script>
+    <script src="/components/match-timeline.js"></script>
+    <script src="/components/match-details.js"></script>
 
     <script>
 
@@ -64,7 +64,7 @@
 
         var router = new VueRouter({
             mode: 'history',
-            routes: []
+            // routes: { path: '/match/:id', component: test_com}
         });
 
         var app = new Vue({
@@ -76,7 +76,10 @@
                 current_event: null,
             },
             mounted: function () {
-                match_id = this.$route.query.match
+                // get match id from query string
+                // match_id = this.$route.query.match
+                // get match id from route
+                match_id = this.$route.path.split('/')[2]
                 console.log('fetching match data for match', match_id)
                 // get match data
                 const match_ref = db.collection('matches').doc(match_id)
