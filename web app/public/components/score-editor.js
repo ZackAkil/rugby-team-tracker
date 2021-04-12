@@ -48,7 +48,19 @@ Vue.component('score-editor', {
             const score_position = data.target[8].value
             console.log(player_id, points, distance, video_seconds_start,video_seconds_exact,
                 video_seconds_end, team_home, team_away, score_position)
-            save_score_in_firestore(this.event_to_edit.id) 
+
+            const score_data = {
+                'player' : player_id ? db.collection("players").doc(player_id) : null,
+                'points' : parseInt(points),
+                'run_distance' : parseInt(distance),
+                'video_seconds_start' : parseInt(video_seconds_start),
+                'video_seconds_exact' : parseInt(video_seconds_exact),
+                'video_seconds_end' : parseInt(video_seconds_end),
+                'match_side' : team_home ? 'home' : 'away',
+                'score_position' : parseInt(score_position)
+            }
+
+            save_score_in_firestore(this.event_to_edit.id, score_data) 
             this.$emit('event-saved')
         }
     },
@@ -93,14 +105,11 @@ Vue.component('score-editor', {
 })
 
 
-function save_score_in_firestore(score_id) {
+function save_score_in_firestore(score_id, score_data) {
 
+    var score_ref = db.collection("scores").doc(score_id)
 
-    var washingtonRef = db.collection("scores").doc(score_id);
-
-    return washingtonRef.update({
-        test_update: true
-    }).then(() => {
+    return score_ref.update(score_data).then(() => {
             console.log("Document successfully updated!");
         })
         .catch((error) => {
