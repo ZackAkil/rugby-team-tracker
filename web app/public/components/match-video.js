@@ -52,30 +52,28 @@ Vue.component('match-video', {
     template: `
     <div class="video-container">
 
-    <div class="score">
-        <div>
-            <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.home_team.color}">{{current_score[0]}}</span> : 
-            <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.away_team.color }">{{current_score[1]}}</span>
+        <div class="score">
+            <div>
+                <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.home_team.color}">{{current_score[0]}}</span> : 
+                <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.away_team.color }">{{current_score[1]}}</span>
+            </div>
         </div>
-    </div>
 
-    <div class="current-event" v-if="current_event">
-        <div>
-            <h3 class="scorer team-text"
-                v-bind:style="{ 'text-decoration-color': current_event.match_side == 'home' ? match_details.home_team.color : match_details.away_team.color }">
-                {{current_event.player.name}} </h3>
+        <div class="current-event" v-if="current_event">
+            <div>
+                <h3 class="scorer team-text"
+                    v-bind:style="{ 'text-decoration-color': current_event.match_side == 'home' ? match_details.home_team.color : match_details.away_team.color }">
+                    {{current_event.player.name}} </h3>
 
-            <span>{{ current_event.run_distance}}m</span>
+                <span>{{ current_event.run_distance}}m</span>
 
-            <a v-bind:href="current_event.video_clip_url" target="_blank">download clip</a>
+                <a v-bind:href="current_event.video_clip_url" target="_blank">download clip</a>
+            </div>
         </div>
+
+        <video controls v-bind:src="match_details.video_source.gs_url" ontimeupdate="video_time_change()"></video>
+
     </div>
-
-    <video controls v-bind:src="match_details.video_source.gs_url" ontimeupdate="video_time_change()"></video>
-
-   <!-- <div class="youtube-video" v-bind:id="match_details.id"></div> --!>
-
-</div>
     `,
     mounted: function () {
 

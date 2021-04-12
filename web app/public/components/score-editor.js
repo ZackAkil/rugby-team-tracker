@@ -2,6 +2,16 @@
 var style = document.createElement('style');
 style.innerHTML = `
 
+button{
+    background-color:white;
+    border: solid black 2px;
+    cursor:pointer;
+}
+
+button:focus{
+    outline:none;
+}
+
 .score-editor{
     border: black 2px solid;
     padding:15px;
@@ -14,10 +24,15 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 
 Vue.component('score-editor', {
-    props: ['match_details'],
-    computed:{
-        all_players: function(){
-            return [ {'name':'step', 'id':'usaash'}, {'name':'stepds', 'id':'usadsash'} ]
+    props: ['match_details', 'event_to_edit'],
+    computed: {
+        all_players: function () {
+            return [{ 'name': 'Unknown', 'id': null },
+            { 'name': '---HOME TEAM---', 'id': null },
+                ...this.match_details.home_team_players,
+                { 'name': '---AWAY TEAM---', 'id': null },
+                    ...this.match_details.away_team_players]
+            
         }
     },
     template: `
@@ -43,6 +58,8 @@ Vue.component('score-editor', {
     <br>
     try line position<input type="range" name="score_position" min=0 max=10 value=5>
     <br>
+
+    <button>Save</button>
 
     </div>
     `
@@ -88,7 +105,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 Vue.component('score-segment-slider', {
     props: [''],
-    computed:{
+    computed: {
     },
     template: `
     <div class="score-segment-slider">
@@ -104,7 +121,7 @@ Vue.component('score-segment-slider', {
 
 Vue.component('precise-slider', {
     props: [''],
-    computed:{
+    computed: {
     },
     template: `
     <div class="precise-slider">

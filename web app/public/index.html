@@ -42,7 +42,8 @@
 
 
 
-            <match-timeline v-bind:match_details="match"></match-timeline>
+            <match-timeline v-bind:match_details="match"
+            v-on:event-clicked="event_clicked"></match-timeline>
 
         </section>
 
@@ -93,7 +94,11 @@
                 // get match data
                 const match_ref = db.collection('matches').doc(match_id)
                 this.$bind('match', match_ref)
-            },
+            },methods:{
+                event_clicked: function(event_data){
+                    jump_video_to_time(event_data.video_seconds_start)
+                }
+            }
         })
 
     </script>

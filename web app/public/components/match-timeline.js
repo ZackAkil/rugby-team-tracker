@@ -74,9 +74,8 @@ Vue.component('match-event', {
     props: ['event_data', 'home_team_color', 'away_team_color'],
     template: `
     <div class="match-event" 
-    v-bind:class="{ 'home-team-event': event_data.match_side == 'home',  'away-team-event': event_data.match_side == 'away'}"
-    v-on:click="jump_video_to_time(event_data.video_seconds_start)"
-    >
+    v-bind:class="{ 'home-team-event': event_data.match_side == 'home',  
+    'away-team-event': event_data.match_side == 'away'}">
         <h3 class="scorer team-text"  
         v-bind:style="{'text-decoration-color': event_data.match_side == 'home' ? home_team_color : away_team_color}"> 
         {{event_data.player.name}} 
@@ -120,16 +119,23 @@ Vue.component('match-timeline', {
             })
 
         }
-
+    },
+    methods:{
+        event_clicked:function(event_data){
+            this.$emit('event-clicked', event_data)
+        }
     },
     template: `
     <div class="match-timeline">
 
         <match-event v-for="event in first_half_scores" 
-        :key="event.video_seconds_exact"
+        :key="event.id"
+        
         v-bind:event_data="event"
         v-bind:home_team_color="match_details.home_team.color"
         v-bind:away_team_color="match_details.away_team.color"
+
+        v-on:click.native="event_clicked(event)"
         ></match-event>
 
         <div class="timeline-score"><span>Half time</span>
@@ -140,10 +146,13 @@ Vue.component('match-timeline', {
         </div>
 
         <match-event v-for="event in second_half_scores" 
-        :key="event.video_seconds_exact"
+        :key="event.id"
         v-bind:event_data="event"
+
         v-bind:home_team_color="match_details.home_team.color"
         v-bind:away_team_color="match_details.away_team.color"
+
+        v-on:click.native="event_clicked(event)"
         ></match-event>
 
         <div class="timeline-score"><span>Full time</span>
