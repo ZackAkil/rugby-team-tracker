@@ -44,6 +44,11 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 Vue.component('match-video', {
     props: ['match_details', 'current_score', 'current_event'],
+    data: function () {
+        return {
+            player: null
+        }
+    },
     template: `
     <div class="video-container">
 
@@ -66,11 +71,52 @@ Vue.component('match-video', {
         </div>
     </div>
 
-    <video controls v-bind:src="match_details.video_url" ontimeupdate="video_time_change()"></video>
+    <video controls v-bind:src="match_details.video_source.gs_url" ontimeupdate="video_time_change()"></video>
+
+   <!-- <div class="youtube-video" v-bind:id="match_details.id"></div> --!>
 
 </div>
-    `
+    `,
+    mounted: function () {
+
+        console.log('mounted video')
+
+        // for youtube
+        // player = new YT.Player(this.match_details.id, {
+        //     width: '100%',
+        //     height: '400px',
+        //     videoId: this.match_details.video_source.youtube_id,
+        //     playerVars: {
+        //         modestbranding: 1,
+        //         rel: 0
+        //     },
+        //     events: {
+        //         // onReady: initialize
+        //     }
+        // });
+    }
+
 })
+
+
+// for youtube player current time
+// var time_update_interval = setInterval(function () {
+//     updateTimerDisplay();
+// }, 1000)
+
+
+function updateTimerDisplay() {
+    // for youtube player
+    // Update current time text display.
+    console.log(player.getCurrentTime());
+    // $('#duration').text(formatTime(player.getDuration()));
+}
+
+function seek_youtube_video(seconds) {
+    // for youtube player
+    player.seekTo(seconds)
+    player.playVideo()
+}
 
 
 function video_time_change() {

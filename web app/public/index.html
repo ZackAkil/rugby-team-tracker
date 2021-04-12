@@ -9,6 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Open+Sans&display=swap"
         rel="stylesheet">
 
+    <!-- <script src="https://www.youtube.com/iframe_api"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/3.0.10/shaka-player.compiled.js"></script> -->
+
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-firestore.js"></script>
 
@@ -34,6 +37,7 @@
             <match-video v-bind:match_details="match" v-bind:current_score="current_score"
                 v-bind:current_event="current_event">
             </match-video>
+
 
             <match-timeline v-bind:match_details="match"></match-timeline>
 
