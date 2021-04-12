@@ -29,23 +29,34 @@ Vue.component('score-editor', {
         all_players: function () {
             return [{ 'name': 'Unknown', 'id': null },
             { 'name': '---HOME TEAM---', 'id': null },
-                ...this.match_details.home_team_players,
-                { 'name': '---AWAY TEAM---', 'id': null },
-                    ...this.match_details.away_team_players]
+            ...this.match_details.home_team_players,
+            { 'name': '---AWAY TEAM---', 'id': null },
+            ...this.match_details.away_team_players]
         }
     },
-    methods:{
-        save_event:function(){
-            console.log('saving event')
-
+    methods: {
+        save_event: function (data) {
+            console.log('saving event', data.target[0])
+            const player_id = data.target[0].value
+            const points = data.target[1].value
+            const distance = data.target[2].value
+            const video_seconds_start = data.target[3].value
+            const video_seconds_exact = data.target[4].value
+            const video_seconds_end = data.target[5].value
+            const team_home = data.target[6].checked
+            const team_away = data.target[7].checked
+            const score_position = data.target[8].value
+            console.log(player_id, points, distance, video_seconds_start,video_seconds_exact,
+                video_seconds_end, team_home, team_away, score_position)
+            save_score_in_firestore(this.event_to_edit.id) 
             this.$emit('event-saved')
         }
     },
     template: `
     <div class="score-editor">
 
-        <div v-if="event_to_edit">
-            player <select name="cars" id="cars" v-bind:value="event_to_edit.player.id">
+        <form v-if="event_to_edit" v-on:submit.prevent="save_event">
+            player <select name="player" v-bind:value="event_to_edit.player.id">
                 <option v-for="player in all_players" v-bind:value="player.id">{{player.name}}</option>
             </select>
             <br>
@@ -74,9 +85,26 @@ Vue.component('score-editor', {
             v-bind:value="event_to_edit.score_position">
             <br><br>
 
-            <button v-on:click="save_event">Save</button>
-        </div>
+            <button type="submit" value="Submit">Save</button>
+        </form>
 
     </div>
     `
 })
+
+
+function save_score_in_firestore(score_id) {
+
+
+    var washingtonRef = db.collection("scores").doc(score_id);
+
+    return washingtonRef.update({
+        test_update: true
+    }).then(() => {
+            console.log("Document successfully updated!");
+        })
+        .catch((error) => {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+        });
+}
