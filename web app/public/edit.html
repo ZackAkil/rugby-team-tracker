@@ -38,6 +38,8 @@
                 v-bind:current_event="current_event">
             </match-video>
 
+            <tmo-controls> dsfdds</tmo-controls>
+
             <score-editor v-bind:match_details="match"></score-editor>
 
             <match-timeline v-bind:match_details="match"></match-timeline>
@@ -49,6 +51,7 @@
     <script src="/components/match-video.js"></script>
     <script src="/components/match-timeline.js"></script>
     <script src="/components/match-details.js"></script>
+    <script src="/components/tmo-controls.js"></script>
     <script src="/components/score-editor.js"></script>
 
     <script>
@@ -80,6 +83,7 @@
                 match: null,
                 current_score: [0, 0],
                 current_event: null,
+                current_video_element: null
             },
             mounted: function () {
                 // get match id from query string

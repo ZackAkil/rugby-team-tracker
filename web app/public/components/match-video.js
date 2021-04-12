@@ -3,7 +3,7 @@ var style = document.createElement('style');
 style.innerHTML = `
 
 .video-container {
-    margin: 30px 0;
+    margin: 30px 0 15px;
     position: relative;
 }
 
@@ -80,6 +80,7 @@ Vue.component('match-video', {
     mounted: function () {
 
         console.log('mounted video')
+        app.current_video_element = document.querySelector('video')
 
         // for youtube
         // player = new YT.Player(this.match_details.id, {
