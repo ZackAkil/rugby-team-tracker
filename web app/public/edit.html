@@ -40,11 +40,10 @@
 
             <tmo-controls> dsfdds</tmo-controls>
 
-            <score-editor v-bind:match_details="match" 
-            v-bind:event_to_edit="current_event_to_edit"></score-editor>
+            <score-editor v-bind:match_details="match" v-bind:event_to_edit="current_event_to_edit"
+                v-on:event-saved="event_saved"></score-editor>
 
-            <match-timeline v-bind:match_details="match"
-            v-on:event-clicked="event_clicked"></match-timeline>
+            <match-timeline v-bind:match_details="match" v-on:event-clicked="event_clicked"></match-timeline>
 
         </section>
 
@@ -97,11 +96,16 @@
                 // get match data
                 const match_ref = db.collection('matches').doc(match_id)
                 this.$bind('match', match_ref)
-            },methods:{
-                event_clicked: function(event_data){
+            }, methods: {
+                event_clicked: function (event_data) {
+                    // when an event from the timeline is clicked 
+                    // skip video to point
                     jump_video_to_time(event_data.video_seconds_start)
+                    // load event in event editor
                     this.current_event_to_edit = event_data
-                    
+                },
+                event_saved: function () {
+                    this.current_event_to_edit = null
                 }
             }
         })

@@ -34,6 +34,13 @@ Vue.component('score-editor', {
                     ...this.match_details.away_team_players]
         }
     },
+    methods:{
+        save_event:function(){
+            console.log('saving event')
+
+            this.$emit('event-saved')
+        }
+    },
     template: `
     <div class="score-editor">
 
@@ -65,81 +72,11 @@ Vue.component('score-editor', {
             <br>
             try line position<input type="range" name="score_position" min=0 max=10 value=5
             v-bind:value="event_to_edit.score_position">
-            <br>
+            <br><br>
 
-            <button>Save</button>
+            <button v-on:click="save_event">Save</button>
         </div>
 
     </div>
     `
 })
-
-
-
-// define style rules to be programtically loaded
-var style = document.createElement('style');
-style.innerHTML = `
-
-.score-segment-slider{
-    border: black 2px solid;
-    padding:15px;
-    margin:15px;
-    position:relative;
-}
-
-.score-segment-slider::after{
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background-color: black;
-    top: 50%;
-    left: 0;
-    z-index:-1;
-}
-
-.segment-point{
-    display: inline-block;
-    background-color: red;
-    height: 10px;
-    width: 10px;
-    border-radius: 50%;
-    cursor:grab;
-    position:absolute;
-    top:11px;
-}
-
-`;
-document.getElementsByTagName('head')[0].appendChild(style);
-
-Vue.component('score-segment-slider', {
-    props: [''],
-    computed: {
-    },
-    template: `
-    <div class="score-segment-slider">
-
-        <div class="segment-point segment-start"></div>
-        <div class="segment-point segment-exact"></div>
-        <div class="segment-point segment-end"></div>
-
-    </div>
-    `
-})
-
-
-Vue.component('precise-slider', {
-    props: [''],
-    computed: {
-    },
-    template: `
-    <div class="precise-slider">
-
-        <div class="segment-point segment-start"></div>
-        <div class="segment-point segment-exact"></div>
-        <div class="segment-point segment-end"></div>
-
-    </div>
-    `
-})
-
