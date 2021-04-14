@@ -35,17 +35,23 @@ Vue.component('score-editor', {
         }
     },
     methods: {
+        set_current_time:function(input_name){
+            const current_time = Math.round((app.current_video_element.currentTime) * 100) / 100
+            document.getElementsByName(input_name)[0].value = current_time
+            console.log(document.getElementsByName(input_name)[0])
+            console.log(current_time)
+        },
         save_event: function (data) {
             console.log('saving event', data.target[0])
-            const player_id = data.target[0].value
-            const points = data.target[1].value
-            const distance = data.target[2].value
-            const video_seconds_start = data.target[3].value
-            const video_seconds_exact = data.target[4].value
-            const video_seconds_end = data.target[5].value
-            const team_home = data.target[6].checked
-            const team_away = data.target[7].checked
-            const score_position = data.target[8].value
+            const player_id = document.getElementsByName('player')[0].value
+            const points = document.getElementsByName('points')[0].value
+            const distance = document.getElementsByName('distance')[0].value
+            const video_seconds_start = document.getElementsByName('segment_start')[0].value
+            const video_seconds_exact = document.getElementsByName('exact_time')[0].value
+            const video_seconds_end = document.getElementsByName('segment_end')[0].value
+            const team_home = document.getElementsByName('team')[0].value
+            const team_away =  document.getElementsByName('team')[1].value
+            const score_position = document.getElementsByName('score_position')[0].value
             console.log(player_id, points, distance, video_seconds_start,video_seconds_exact,
                 video_seconds_end, team_home, team_away, score_position)
 
@@ -53,9 +59,9 @@ Vue.component('score-editor', {
                 'player' : player_id ? db.collection("players").doc(player_id) : null,
                 'points' : parseInt(points),
                 'run_distance' : parseInt(distance),
-                'video_seconds_start' : parseInt(video_seconds_start),
-                'video_seconds_exact' : parseInt(video_seconds_exact),
-                'video_seconds_end' : parseInt(video_seconds_end),
+                'video_seconds_start' : parseFloat(video_seconds_start),
+                'video_seconds_exact' : parseFloat(video_seconds_exact),
+                'video_seconds_end' : parseFloat(video_seconds_end),
                 'match_side' : team_home ? 'home' : 'away',
                 'score_position' : parseInt(score_position)
             }
@@ -78,14 +84,14 @@ Vue.component('score-editor', {
             distance <input type="number" name="distance" min=0 value=1
             v-bind:value="event_to_edit.run_distance">
             <br>
-            segment start <input type="number" name="segment_start" min=0 
-            v-bind:value="event_to_edit.video_seconds_start">
+            segment start <input type="number" name="segment_start" min=0 step=0.01
+            v-bind:value="event_to_edit.video_seconds_start"> <button type="button" v-on:click="set_current_time('segment_start')">set time</button>
             <br>
-            exact time <input type="number" name="exact_time" min=0 value=1
-            v-bind:value="event_to_edit.video_seconds_exact">
+            exact time <input type="number" name="exact_time" min=0 value=1 step=0.01
+            v-bind:value="event_to_edit.video_seconds_exact"> <button type="button" v-on:click="set_current_time('exact_time')">set time</button>
             <br>
-            segment end <input type="number" name="segment_end" min=0 value=1
-            v-bind:value="event_to_edit.video_seconds_end">
+            segment end <input type="number" name="segment_end" min=0 value=1 step=0.01
+            v-bind:value="event_to_edit.video_seconds_end"> <button type="button" v-on:click="set_current_time('segment_end')">set time</button>
             <br>
 
             home <input type="radio" name="team" value="home" 
