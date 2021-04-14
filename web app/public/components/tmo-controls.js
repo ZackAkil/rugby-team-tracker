@@ -50,7 +50,7 @@ Vue.component('tmo-controls', {
     props: [''],
     template: `
     <div class="tmo-controls">
-        <input type="range" name="playback_speed" min=-150 max=150 value=0 
+        <input type="range" name="playback_speed" min=-100 max=100 value=0 
         onmouseup="spring_back_tmo(event)" ontouchend="spring_back_tmo(event)" oninput="set_video_speed(this.value)">
  
     </div>
@@ -72,7 +72,7 @@ function spring_back_tmo(event){
 
 function set_video_speed(speed){
     tmo_playback = true
-    tmo_playback_rate = speed/100
+    tmo_playback_rate = ((speed/100)**3)*10
 
     if (!app.current_video_element.paused)
     app.current_video_element.pause()

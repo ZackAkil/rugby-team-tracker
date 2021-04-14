@@ -49,8 +49,8 @@ Vue.component('score-editor', {
             const video_seconds_start = document.getElementsByName('segment_start')[0].value
             const video_seconds_exact = document.getElementsByName('exact_time')[0].value
             const video_seconds_end = document.getElementsByName('segment_end')[0].value
-            const team_home = document.getElementsByName('team')[0].value
-            const team_away =  document.getElementsByName('team')[1].value
+            const team_home = document.getElementsByName('team')[0].checked
+            const team_away =  document.getElementsByName('team')[1].checked
             const score_position = document.getElementsByName('score_position')[0].value
             console.log(player_id, points, distance, video_seconds_start,video_seconds_exact,
                 video_seconds_end, team_home, team_away, score_position)
