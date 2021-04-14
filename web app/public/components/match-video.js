@@ -71,7 +71,7 @@ Vue.component('match-video', {
             </div>
         </div>
 
-        <video muted controls v-bind:src="match_details.video_source.gs_url" ontimeupdate="video_time_change()"></video>
+        <video controls v-bind:src="match_details.video_source.gs_url" ontimeupdate="video_time_change()"></video>
 
     </div>
     `,

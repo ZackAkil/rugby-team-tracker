@@ -3,6 +3,9 @@
 <head>
     <title>FiftyTen</title>
 
+    <meta name="description" content="Tag rugby stats and video analytics">
+    <meta name="keywords" content="tag, rugby, video, analytics, stats">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -85,6 +88,11 @@
                 current_event: null,
                 current_video_element: null
             },
+            watch:{
+                match:function(){
+                    document.title = "FiftyTen - " + this.match.home_team.name +" v "+ this.match.away_team.name
+                }
+            },
             mounted: function () {
                 // get match id from query string
                 // match_id = this.$route.query.match
@@ -94,6 +102,7 @@
                 // get match data
                 const match_ref = db.collection('matches').doc(match_id)
                 this.$bind('match', match_ref)
+
             },methods:{
                 event_clicked: function(event_data){
                     this.current_video_element.scrollIntoView({'behavior':'smooth', 'block':'center'})
