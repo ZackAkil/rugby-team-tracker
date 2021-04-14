@@ -44,6 +44,10 @@ style.innerHTML = `
     background-color: white;
 }
 
+.match-event > h3{
+    margin: 0 15px;
+}
+
 .timeline-score{
     width: fit-content;
     margin: auto;
@@ -76,23 +80,31 @@ Vue.component('match-event', {
     <div class="match-event" 
     v-bind:class="{ 'home-team-event': event_data.match_side == 'home',  
     'away-team-event': event_data.match_side == 'away'}">
+
+        <span> {{ parseInt(event_data.video_seconds_exact/60)}}'</span>
+
         <h3 class="scorer team-text"  
         v-bind:style="{'text-decoration-color': event_data.match_side == 'home' ? home_team_color : away_team_color}"> 
         {{event_data.player.name}} 
         </h3>
-        <br>
-
-        <span v-if="event_data.asisted_from.length > 0">
-        assist from 
-        <span v-for="assistor in event_data.asisted_from" >{{assistor.name}}</span>
-        <br>
-        </span>
-
-        <span> {{ parseInt(event_data.video_seconds_exact/60)}}'</span>
 
         <span> {{ event_data.run_distance}}m</span>
 
+        <span v-if="event_data.points != 1">
         +{{event_data.points}}  
+        </span>
+
+        <br>
+
+        <span v-if="event_data.asisted_from.length > 0">
+            assist from 
+            <span v-for="assistor in event_data.asisted_from" >{{assistor.name}}</span>
+            <br>
+        </span>
+
+        
+
+
 
     </div>
     `

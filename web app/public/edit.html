@@ -100,7 +100,7 @@
                 event_clicked: function (event_data) {
                     // when an event from the timeline is clicked 
                     // scroll to video
-                    this.current_video_element.scrollIntoView()
+                    this.current_video_element.scrollIntoView({'behavior':'smooth', 'block':'center'})
                     // skip video to point
                     jump_video_to_time(event_data.video_seconds_start)
                     // load event in event editor
