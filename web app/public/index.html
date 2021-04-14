@@ -17,6 +17,8 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-firestore.js"></script>
+    <script src='https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js'></script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
     <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
@@ -70,7 +72,8 @@
         };
 
         firebase.initializeApp(firebaseConfig);
-        var db = firebase.firestore();
+        const db = firebase.firestore();
+        const analytics = firebase.analytics();
 
         Vue.use(Vuefire.firestorePlugin)
 
