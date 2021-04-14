@@ -15,14 +15,14 @@
     <!-- <script src="https://www.youtube.com/iframe_api"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/3.0.10/shaka-player.compiled.js"></script> -->
 
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-firestore.js"></script>
     <script src='https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js'></script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
     <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.5.1/vue-router.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.5.1/vue-router.min.js"></script> -->
 
     <link href="/styles.css" rel="stylesheet">
 </head>
@@ -35,84 +35,71 @@
             <h1>FiftyTen</h1>
         </header>
 
-        <section v-if="match">
-
-            <match-details v-bind:match_details="match"></match-details>
-
-            <match-video v-bind:match_details="match" v-bind:current_score="current_score"
-                v-bind:current_event="current_event" >
-            </match-video>
-
-            <tmo-controls></tmo-controls>
-
-
-
-            <match-timeline v-bind:match_details="match"
-            v-on:event-clicked="event_clicked"></match-timeline>
-
-        </section>
+        <p>
+            Nothing here yet 😉
+        </p>
 
     </div>
 
-    <script src="/components/match-video.js"></script>
+    <!-- <script src="/components/match-video.js"></script>
     <script src="/components/match-timeline.js"></script>
     <script src="/components/match-details.js"></script>
-    <script src="/components/tmo-controls.js"></script>
+    <script src="/components/tmo-controls.js"></script> -->
 
     <script>
 
-        var firebaseConfig = {
-            apiKey: "AIzaSyCJI2WRy12GqQQnQO4AbamEaiR0zwG8vdw",
-            authDomain: "rugby-video-app.firebaseapp.com",
-            projectId: "rugby-video-app",
-            storageBucket: "rugby-video-app.appspot.com",
-            messagingSenderId: "726446431890",
-            appId: "1:726446431890:web:c4caf3b2f1ca5edc80104b",
-            measurementId: "G-VGCS0MFPZB"
-        };
+        // var firebaseConfig = {
+        //     apiKey: "AIzaSyCJI2WRy12GqQQnQO4AbamEaiR0zwG8vdw",
+        //     authDomain: "rugby-video-app.firebaseapp.com",
+        //     projectId: "rugby-video-app",
+        //     storageBucket: "rugby-video-app.appspot.com",
+        //     messagingSenderId: "726446431890",
+        //     appId: "1:726446431890:web:c4caf3b2f1ca5edc80104b",
+        //     measurementId: "G-VGCS0MFPZB"
+        // };
 
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const analytics = firebase.analytics();
+        // firebase.initializeApp(firebaseConfig);
+        // const db = firebase.firestore();
+        // const analytics = firebase.analytics();
 
-        Vue.use(Vuefire.firestorePlugin)
+        // Vue.use(Vuefire.firestorePlugin)
 
-        var router = new VueRouter({
-            mode: 'history',
-            // routes: { path: '/match/:id', component: test_com}
-        });
+        // var router = new VueRouter({
+        //     mode: 'history',
+        //     // routes: { path: '/match/:id', component: test_com}
+        // });
 
-        var app = new Vue({
-            router,
-            el: '#app',
-            data: {
-                match: null,
-                current_score: [0, 0],
-                current_event: null,
-                current_video_element: null
-            },
-            watch:{
-                match:function(){
-                    document.title = "FiftyTen - " + this.match.home_team.name +" v "+ this.match.away_team.name
-                }
-            },
-            mounted: function () {
-                // get match id from query string
-                // match_id = this.$route.query.match
-                // get match id from route
-                match_id = this.$route.path.split('/')[2]
-                console.log('fetching match data for match', match_id)
-                // get match data
-                const match_ref = db.collection('matches').doc(match_id)
-                this.$bind('match', match_ref)
+        // var app = new Vue({
+        //     router,
+        //     el: '#app',
+        //     data: {
+        //         match: null,
+        //         current_score: [0, 0],
+        //         current_event: null,
+        //         current_video_element: null
+        //     },
+        //     watch:{
+        //         match:function(){
+        //             document.title = "FiftyTen - " + this.match.home_team.name +" v "+ this.match.away_team.name
+        //         }
+        //     },
+        //     mounted: function () {
+        //         // get match id from query string
+        //         // match_id = this.$route.query.match
+        //         // get match id from route
+        //         match_id = this.$route.path.split('/')[2]
+        //         console.log('fetching match data for match', match_id)
+        //         // get match data
+        //         const match_ref = db.collection('matches').doc(match_id)
+        //         this.$bind('match', match_ref)
 
-            },methods:{
-                event_clicked: function(event_data){
-                    this.current_video_element.scrollIntoView({'behavior':'smooth', 'block':'center'})
-                    jump_video_to_time(event_data.video_seconds_start)
-                }
-            }
-        })
+        //     },methods:{
+        //         event_clicked: function(event_data){
+        //             this.current_video_element.scrollIntoView({'behavior':'smooth', 'block':'center'})
+        //             jump_video_to_time(event_data.video_seconds_start)
+        //         }
+        //     }
+        // })
 
     </script>
 

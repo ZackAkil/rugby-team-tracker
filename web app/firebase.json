@@ -9,7 +9,7 @@
     "rewrites": [
       {
         "source": "/match/*",
-        "destination": "/index.html"
+        "destination": "/match.html"
       },
       {
         "source": "/match/*/edit",
