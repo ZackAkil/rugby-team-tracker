@@ -96,6 +96,7 @@
                 this.$bind('match', match_ref)
             },methods:{
                 event_clicked: function(event_data){
+                    this.current_video_element.scrollIntoView()
                     jump_video_to_time(event_data.video_seconds_start)
                 }
             }
