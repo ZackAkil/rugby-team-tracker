@@ -40,15 +40,14 @@
             <match-details v-bind:match_details="match"></match-details>
 
             <match-video v-bind:match_details="match" v-bind:current_score="current_score"
-                v-bind:current_event="current_event" >
+                v-bind:current_event="current_event">
             </match-video>
 
             <tmo-controls></tmo-controls>
 
 
 
-            <match-timeline v-bind:match_details="match"
-            v-on:event-clicked="event_clicked"></match-timeline>
+            <match-timeline v-bind:match_details="match" v-on:event-clicked="event_clicked"></match-timeline>
 
         </section>
 
@@ -91,9 +90,11 @@
                 current_event: null,
                 current_video_element: null
             },
-            watch:{
-                match:function(){
-                    document.title = "FiftyTen - " + this.match.home_team.name +" v "+ this.match.away_team.name
+            watch: {
+                match: function () {
+                    setTimeout(function () {
+                        document.title = "FiftyTen - " + app.match.home_team.name + " v " + app.match.away_team.name
+                    }, 500);
                 }
             },
             mounted: function () {
@@ -106,9 +107,9 @@
                 const match_ref = db.collection('matches').doc(match_id)
                 this.$bind('match', match_ref)
 
-            },methods:{
-                event_clicked: function(event_data){
-                    this.current_video_element.scrollIntoView({'behavior':'smooth', 'block':'center'})
+            }, methods: {
+                event_clicked: function (event_data) {
+                    this.current_video_element.scrollIntoView({ 'behavior': 'smooth', 'block': 'center' })
                     jump_video_to_time(event_data.video_seconds_start)
                 }
             }
