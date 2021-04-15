@@ -63,7 +63,9 @@ Vue.component('match-video', {
             <div>
                 <h3 class="scorer team-text"
                     v-bind:style="{ 'text-decoration-color': current_event.match_side == 'home' ? match_details.home_team.color : match_details.away_team.color }">
-                    {{current_event.player.name}} </h3>
+                    <span v-if="current_event.player">{{current_event.player.name}} </span>
+                    <span v-else>Someone</span>
+                    </h3>
 
                 <span>{{ current_event.run_distance}}m</span>
 

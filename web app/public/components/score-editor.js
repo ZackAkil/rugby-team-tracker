@@ -28,21 +28,22 @@ Vue.component('score-editor', {
     computed: {
         all_players: function () {
             return [{ 'name': 'Unknown', 'id': null },
-            { 'name': '---HOME TEAM---', 'id': null },
+            { 'name': '---HOME TEAM---', 'id': '---HOME TEAM---' },
             ...this.match_details.home_team_players,
-            { 'name': '---AWAY TEAM---', 'id': null },
+            { 'name': '---AWAY TEAM---', 'id': '---AWAY TEAM---' },
             ...this.match_details.away_team_players]
         }
     },
     methods: {
-        set_current_time:function(input_name){
+        set_current_time: function (input_name) {
             const current_time = Math.round((app.current_video_element.currentTime) * 100) / 100
             document.getElementsByName(input_name)[0].value = current_time
             console.log(document.getElementsByName(input_name)[0])
             console.log(current_time)
         },
-        new_event:function(){
+        new_event: function () {
             console.log('added score')
+            new_score_in_firestore()
             this.$emit('event-new')
             // creae blank score record, add to match scores, open in edit mode
         },
@@ -55,23 +56,23 @@ Vue.component('score-editor', {
             const video_seconds_exact = document.getElementsByName('exact_time')[0].value
             const video_seconds_end = document.getElementsByName('segment_end')[0].value
             const team_home = document.getElementsByName('team')[0].checked
-            const team_away =  document.getElementsByName('team')[1].checked
+            const team_away = document.getElementsByName('team')[1].checked
             const score_position = document.getElementsByName('score_position')[0].value
-            console.log(player_id, points, distance, video_seconds_start,video_seconds_exact,
+            console.log(player_id, points, distance, video_seconds_start, video_seconds_exact,
                 video_seconds_end, team_home, team_away, score_position)
 
             const score_data = {
-                'player' : player_id ? db.collection("players").doc(player_id) : null,
-                'points' : parseInt(points),
-                'run_distance' : parseInt(distance),
-                'video_seconds_start' : parseFloat(video_seconds_start),
-                'video_seconds_exact' : parseFloat(video_seconds_exact),
-                'video_seconds_end' : parseFloat(video_seconds_end),
-                'match_side' : team_home ? 'home' : 'away',
-                'score_position' : parseInt(score_position)
+                'player': player_id ? db.collection("players").doc(player_id) : null,
+                'points': parseInt(points),
+                'run_distance': parseInt(distance),
+                'video_seconds_start': parseFloat(video_seconds_start),
+                'video_seconds_exact': parseFloat(video_seconds_exact),
+                'video_seconds_end': parseFloat(video_seconds_end),
+                'match_side': team_home ? 'home' : 'away',
+                'score_position': parseInt(score_position)
             }
 
-            save_score_in_firestore(this.event_to_edit.id, score_data) 
+            save_score_in_firestore(this.event_to_edit.id, score_data)
             this.$emit('event-saved')
         }
     },
@@ -83,8 +84,8 @@ Vue.component('score-editor', {
         </div>
 
         <form v-if="event_to_edit" v-on:submit.prevent="save_event">
-            player <select name="player" v-bind:value="event_to_edit.player.id">
-                <option v-for="player in all_players" v-bind:value="player.id">{{player.name}}</option>
+            player <select name="player" v-bind:value="event_to_edit.player ? event_to_edit.player.id : null">
+                <option v-for="player in all_players" v-bind:value="player.id ">{{player.name}}</option>
             </select>
             <br>
             points <input type="number" name="points" value=1
@@ -119,14 +120,41 @@ Vue.component('score-editor', {
     `
 })
 
+function new_score_in_firestore() {
+
+    var score_ref = db.collection("scores").doc()
+
+    const current_time = Math.round((app.current_video_element.currentTime) * 100) / 100
+
+    const score_data = {
+        'match_id': app.match.id,
+        'player': null,
+        'points': 1,
+        'run_distance': 15,
+        'video_seconds_start': current_time - 15,
+        'video_seconds_exact': current_time,
+        'video_seconds_end': current_time + 3,
+        'match_side': 'home',
+        'score_position': 5
+    }
+
+    return score_ref.set(score_data).then((data) => {
+        console.log("Document successfully added!", data);
+    })
+        .catch((error) => {
+            // The document probably doesn't exist.
+            console.error("Error adding document: ", error);
+        });
+}
+
 
 function save_score_in_firestore(score_id, score_data) {
 
     var score_ref = db.collection("scores").doc(score_id)
 
     return score_ref.update(score_data).then(() => {
-            console.log("Document successfully updated!");
-        })
+        console.log("Document successfully updated!");
+    })
         .catch((error) => {
             // The document probably doesn't exist.
             console.error("Error updating document: ", error);

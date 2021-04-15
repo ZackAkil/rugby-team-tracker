@@ -85,7 +85,8 @@ Vue.component('match-event', {
 
         <h3 class="scorer team-text"  
         v-bind:style="{'text-decoration-color': event_data.match_side == 'home' ? home_team_color : away_team_color}"> 
-        {{event_data.player.name}} 
+            <span v-if="event_data.player">{{event_data.player.name}} </span>
+            <span v-else>Someone</span>
         </h3>
 
         <span> {{ event_data.run_distance}}m</span>
@@ -96,7 +97,7 @@ Vue.component('match-event', {
 
         <br>
 
-        <span v-if="event_data.asisted_from.length > 0">
+        <span v-if="event_data.asisted_from && event_data.asisted_from.length > 0">
             assist from 
             <span v-for="assistor in event_data.asisted_from" >{{assistor.name}}</span>
             <br>
@@ -112,21 +113,21 @@ Vue.component('match-event', {
 
 
 Vue.component('match-timeline', {
-    props: ['match_details'],
+    props: ['match_details', 'scores'],
     computed: {
         halftime_score: function () {
-            return get_score_at_time(this.match_details.video_halftime_seconds, this.match_details.scores)
+            return get_score_at_time(this.match_details.video_halftime_seconds, this.scores)
         },
         fulltime_score: function () {
-            return get_score_at_time(Infinity, this.match_details.scores)
+            return get_score_at_time(Infinity, this.scores)
         },
         first_half_scores: function () {
-            return this.match_details.scores.filter(event => event.video_seconds_exact <= this.match_details.video_halftime_seconds).sort(function (a, b) {
+            return this.scores.filter(event => event.video_seconds_exact <= this.match_details.video_halftime_seconds).sort(function (a, b) {
                 return a.video_seconds_exact - b.video_seconds_exact;
             })
         },
         second_half_scores: function () {
-            return this.match_details.scores.filter(event => event.video_seconds_exact > this.match_details.video_halftime_seconds).sort(function (a, b) {
+            return this.scores.filter(event => event.video_seconds_exact > this.match_details.video_halftime_seconds).sort(function (a, b) {
                 return a.video_seconds_exact - b.video_seconds_exact;
             })
 

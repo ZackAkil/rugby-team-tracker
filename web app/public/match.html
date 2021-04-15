@@ -47,7 +47,7 @@
 
 
 
-            <match-timeline v-bind:match_details="match" v-on:event-clicked="event_clicked"></match-timeline>
+            <match-timeline v-bind:match_details="match" v-bind:scores="scores" v-on:event-clicked="event_clicked"></match-timeline>
 
         </section>
 
@@ -86,6 +86,7 @@
             el: '#app',
             data: {
                 match: null,
+                scores: [],
                 current_score: [0, 0],
                 current_event: null,
                 current_video_element: null
@@ -106,6 +107,10 @@
                 // get match data
                 const match_ref = db.collection('matches').doc(match_id)
                 this.$bind('match', match_ref)
+
+                // get scores
+                const scores_ref = db.collection('scores').where('match_id', '==', match_id)
+                this.$bind('scores', scores_ref)
 
             }, methods: {
                 event_clicked: function (event_data) {
