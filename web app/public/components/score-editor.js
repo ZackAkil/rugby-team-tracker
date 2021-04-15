@@ -41,6 +41,11 @@ Vue.component('score-editor', {
             console.log(document.getElementsByName(input_name)[0])
             console.log(current_time)
         },
+        new_event:function(){
+            console.log('added score')
+            this.$emit('event-new')
+            // creae blank score record, add to match scores, open in edit mode
+        },
         save_event: function (data) {
             console.log('saving event', data.target[0])
             const player_id = document.getElementsByName('player')[0].value
@@ -72,6 +77,10 @@ Vue.component('score-editor', {
     },
     template: `
     <div class="score-editor">
+
+        <div v-if="!event_to_edit">
+            <button v-on:click="new_event">Add score</button>
+        </div>
 
         <form v-if="event_to_edit" v-on:submit.prevent="save_event">
             player <select name="player" v-bind:value="event_to_edit.player.id">
