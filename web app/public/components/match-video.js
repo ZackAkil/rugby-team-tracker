@@ -122,8 +122,8 @@ function seek_youtube_video(seconds) {
 
 function video_time_change() {
     const video = document.querySelector('video')
-    app.current_event = get_current_event(video.currentTime, app.match.scores)
-    app.current_score = get_score_at_time(video.currentTime, app.match.scores)
+    app.current_event = get_current_event(video.currentTime, app.scores)
+    app.current_score = get_score_at_time(video.currentTime, app.scores)
 }
 
 function get_current_event(time, events) {
