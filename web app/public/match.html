@@ -71,7 +71,7 @@
 
             <div class="stats-nav">
                 <div v-on:click="current_stat_view='timeline'" v-bind:class="{ selected: current_stat_view=='timeline' }" >Timeline</div>
-                <div v-on:click="current_stat_view='map'"  v-bind:class="{ selected: current_stat_view=='map' }">Pitch Map</div>
+                <div v-on:click="current_stat_view='map'"  v-bind:class="{ selected: current_stat_view=='map' }">Score Map</div>
             </div>
 
             <match-score-map v-if="current_stat_view=='map'" v-bind:scores="scores" v-bind:match_details="match"></match-score-map>
