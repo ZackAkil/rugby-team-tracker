@@ -25,6 +25,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.5.1/vue-router.min.js"></script>
 
     <link href="/styles.css" rel="stylesheet">
+
+    <style>
+        .stats-nav {
+            border-bottom: black solid 2px;
+            padding-left: 15px;
+        }
+
+        .stats-nav>div {
+            display: inline-block;
+            border: black solid 2px;
+            padding: 15px;
+            bottom: -2px;
+            position: relative;
+            cursor: pointer;
+
+        }
+
+        .stats-nav>div.selected {
+            display: inline-block;
+            border-bottom-color: white;
+            background-color: white;
+
+        }
+    </style>
 </head>
 
 <body>
@@ -45,11 +69,15 @@
 
             <tmo-controls></tmo-controls>
 
-            <match-score-map v-bind:scores="scores"  v-bind:match_details="match"></match-score-map>
+            <div class="stats-nav">
+                <div v-on:click="current_stat_view='timeline'" v-bind:class="{ selected: current_stat_view=='timeline' }" >Timeline</div>
+                <div v-on:click="current_stat_view='map'"  v-bind:class="{ selected: current_stat_view=='map' }">Pitch Map</div>
+            </div>
 
+            <match-score-map v-if="current_stat_view=='map'" v-bind:scores="scores" v-bind:match_details="match"></match-score-map>
 
-
-            <match-timeline v-bind:match_details="match" v-bind:scores="scores" v-on:event-clicked="event_clicked"></match-timeline>
+            <match-timeline v-if="current_stat_view=='timeline'" v-bind:match_details="match" v-bind:scores="scores" v-on:event-clicked="event_clicked">
+            </match-timeline>
 
         </section>
 
@@ -89,6 +117,7 @@
             el: '#app',
             data: {
                 match: null,
+                current_stat_view: 'timeline',
                 scores: [],
                 current_score: [0, 0],
                 current_event: null,

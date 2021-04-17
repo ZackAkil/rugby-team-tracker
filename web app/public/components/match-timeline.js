@@ -139,42 +139,50 @@ Vue.component('match-timeline', {
         }
     },
     template: `
-    <div class="match-timeline">
 
-        <match-event v-for="event in first_half_scores" 
-        :key="event.id"
-        
-        v-bind:event_data="event"
-        v-bind:home_team_color="match_details.home_team.color"
-        v-bind:away_team_color="match_details.away_team.color"
+    <div>
+        <p class="info-text">
+        Showing when, who, and from what distance each try was scored. ( + any bonus points)
+        </p>
+        <div class="match-timeline">
 
-        v-on:click.native="event_clicked(event)"
-        ></match-event>
+    
 
-        <div class="timeline-score"><span>Half time</span>
-            <div>
-                <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.home_team.color}">{{halftime_score[0]}}</span> : 
-                <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.away_team.color}">{{halftime_score[1]}}</span>
+            <match-event v-for="event in first_half_scores" 
+            :key="event.id"
+            
+            v-bind:event_data="event"
+            v-bind:home_team_color="match_details.home_team.color"
+            v-bind:away_team_color="match_details.away_team.color"
+
+            v-on:click.native="event_clicked(event)"
+            ></match-event>
+
+            <div class="timeline-score"><span>Half time</span>
+                <div>
+                    <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.home_team.color}">{{halftime_score[0]}}</span> : 
+                    <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.away_team.color}">{{halftime_score[1]}}</span>
+                </div>
             </div>
-        </div>
 
-        <match-event v-for="event in second_half_scores" 
-        :key="event.id"
-        v-bind:event_data="event"
+            <match-event v-for="event in second_half_scores" 
+            :key="event.id"
+            v-bind:event_data="event"
 
-        v-bind:home_team_color="match_details.home_team.color"
-        v-bind:away_team_color="match_details.away_team.color"
+            v-bind:home_team_color="match_details.home_team.color"
+            v-bind:away_team_color="match_details.away_team.color"
 
-        v-on:click.native="event_clicked(event)"
-        ></match-event>
+            v-on:click.native="event_clicked(event)"
+            ></match-event>
 
-        <div class="timeline-score"><span>Full time</span>
-            <div>
-                <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.home_team.color}">{{fulltime_score[0]}}</span> : 
-                <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.away_team.color}">{{fulltime_score[1]}}</span>
+            <div class="timeline-score"><span>Full time</span>
+                <div>
+                    <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.home_team.color}">{{fulltime_score[0]}}</span> : 
+                    <span class="team-text" v-bind:style="{ 'text-decoration-color': match_details.away_team.color}">{{fulltime_score[1]}}</span>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
     `
 })

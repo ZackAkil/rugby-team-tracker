@@ -44,12 +44,6 @@ style.innerHTML = `
     left:90%;
 }
 
-.info-text{
-    background-color: #f3f3f3;
-    display: inline-block;
-    padding: 10px;
-}
-
 `;
 document.getElementsByTagName('head')[0].appendChild(style);
 
@@ -76,10 +70,8 @@ Vue.component('match-score-map', {
     template: `
     <div class="match-score-map">
         <p class="info-text">
-        Showing where on the try line that scores happened and from what distance that scoring phase started.
+        Visualising where on the try line that scores happened and from what distance that scoring phase started.
         </p>
-
-        <br>
 
         <input type="checkbox" name="home_team"  v-model="show_home_team"
         checked>

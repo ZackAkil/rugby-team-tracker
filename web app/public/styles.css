@@ -38,3 +38,10 @@ video:focus{
 .material-icons {
     vertical-align: text-bottom;
 }
+
+.info-text{
+    background-color: #f3f3f3;
+    padding: 10px;
+    text-align: center;
+    font-style: italic;
+}
