@@ -37,7 +37,7 @@ style.innerHTML = `
 }
 
 .match-event, .timeline-score{
-    border: black solid 2px;
+    border: #b7b7b7 solid 2px;
     margin-top: 15px;
     margin-bottom: 15px;
     padding:15px;
