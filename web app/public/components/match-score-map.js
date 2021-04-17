@@ -83,11 +83,11 @@ Vue.component('match-score-map', {
 
         <input type="checkbox" name="home_team"  v-model="show_home_team"
         checked>
-        <label for="home_team">{{match_details.home_team.name}} scores</label>
+        <label for="home_team">{{match_details.home_team.name}}</label>
 
         <input type="checkbox" name="away_team" v-model="show_away_team"
         checked>
-        <label for="away_team">{{match_details.away_team.name}} scores</label>
+        <label for="away_team">{{match_details.away_team.name}}</label>
 
         <br><br>
         <match-score-map-viz-both v-bind:scores="scores" v-bind:match_details="match_details"
