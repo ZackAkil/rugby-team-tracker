@@ -71,9 +71,12 @@
             <tmo-controls></tmo-controls>
 
             <div class="stats-nav">
+                <div v-on:click="current_stat_view='summary'" v-bind:class="{ selected: current_stat_view=='summary' }" >Summary</div>
                 <div v-on:click="current_stat_view='timeline'" v-bind:class="{ selected: current_stat_view=='timeline' }" >Timeline</div>
                 <div v-on:click="current_stat_view='map'"  v-bind:class="{ selected: current_stat_view=='map' }">Score Map</div>
             </div>
+
+            <match-summary v-if="current_stat_view=='summary'" v-bind:scores="scores" v-bind:match_details="match"></match-summary>
 
             <match-score-map v-if="current_stat_view=='map'" v-bind:scores="scores" v-bind:match_details="match"></match-score-map>
 
@@ -85,6 +88,7 @@
     </div>
 
     <script src="/components/match-video.js"></script>
+    <script src="/components/match-summary.js"></script>
     <script src="/components/match-timeline.js"></script>
     <script src="/components/match-score-map.js"></script>
     <script src="/components/match-details.js"></script>
@@ -118,7 +122,7 @@
             el: '#app',
             data: {
                 match: null,
-                current_stat_view: 'timeline',
+                current_stat_view: 'summary',
                 scores: [],
                 current_score: [0, 0],
                 current_event: null,
