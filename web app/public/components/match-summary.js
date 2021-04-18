@@ -9,6 +9,8 @@ text-align:center;
 .score-list{
     display: inline-block;
     padding: 15px;
+    vertical-align: top;
+    width:42%;
 }
 
 .home-score-list{
@@ -24,11 +26,29 @@ text-align:center;
     display: inline-block;
 }
 
+.score-box > div{
+    display: inline-block;
+    width: 40px;
+    border-bottom: solid black 3px;
+}
+
+.score-box > div > h2{
+    line-height: 0;
+}
+
 .score-list-center-line{
     display: inline-block;
-    height:100%;
+    height: 100%;
     width: 1px;
     background-color: gray;
+}
+
+.player-score{
+    margin: 5px;
+}
+.player-score > span{
+    display: inline-block;
+    margin-right: 5px;
 }
 `;
 document.getElementsByTagName('head')[0].appendChild(style);
@@ -78,26 +98,37 @@ Vue.component('match-summary', {
             return this.players_scores_by_side(this.scores, 'away')
         },
         final_score: function () {
-            return [3, 10]
+            const output = [0,0]
+            
+            this.scores.forEach(score => {
+                if (score.match_side == 'home')
+                    output[0] += score.points
+                else
+                    output[1] += score.points
+            })
+            return output
         }
     },
     template: `
     <div class="match-summary">
 
         <div class="score-box">
-            <h2>{{final_score[0]}}</h2>
+            <div v-bind:style="{'border-bottom-color':match_details.home_team.color}"><h2>{{final_score[0]}}</h2></div>
             <h2>:</h2>
-            <h2>{{final_score[1]}}</h2>
+            <div v-bind:style="{'border-bottom-color':match_details.away_team.color}"><h2>{{final_score[1]}}</h2></div>
         </div>
 
 
         <div class="score-list home-score-list">
-            <div  v-for="player in home_scores">{{player.name}}
-            <span v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}) </span>
+            <div class="player-score"   v-for="player in home_scores">{{player.name}}
+                <span v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}  
+                    <span v-if="score.points != 1">+{{score.points}}</span>) </span>
             </div>
         </div><div class="score-list away-score-list">
-            <div  v-for="player in away_scores">{{player.name}}
-            <span v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}) </span>
+            <div class="player-score"  v-for="player in away_scores">{{player.name}}
+                <span v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}
+                    <span v-if="score.points != 1">+{{score.points}}</span>) </span></span>
+            
             </div>
         </div>
 
