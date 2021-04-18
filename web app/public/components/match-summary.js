@@ -53,6 +53,11 @@ text-align:center;
 .player-score > span{
     display: inline-block;
     margin-right: 5px;
+    cursor: pointer;
+}
+
+.player-score > span:hover{
+    text-decoration: underline;
 }
 
 .player-name{
@@ -115,6 +120,10 @@ Vue.component('match-summary', {
                         return a.video_seconds_exact - b.video_seconds_exact
                     })
             )
+        },
+        jump_to_video: function(score){
+            console.log(score)
+            this.$emit('event-clicked', score)
         }
     },
     computed: {
@@ -149,12 +158,14 @@ Vue.component('match-summary', {
         <div class="player_score-lists">
             <div class="score-list home-score-list">
                 <div class="player-score"   v-for="player in home_scores"><h3 class="player-name">{{player.name}}</h3>
-                    <span v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}  
+                    <span v-on:click="jump_to_video(score)" v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}  
                         <span v-if="score.points != 1">+{{score.points}}</span>) </span>
                 </div>
-            </div><div class="score-list away-score-list">
+            </div>
+            
+            <div class="score-list away-score-list">
                 <div class="player-score"  v-for="player in away_scores"><h3 class="player-name">{{player.name}}</h3>
-                    <span v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}
+                    <span v-on:click="jump_to_video(score)" v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}
                         <span v-if="score.points != 1">+{{score.points}}</span>) </span></span>
                 
                 </div>

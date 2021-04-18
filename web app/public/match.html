@@ -76,7 +76,7 @@
                 <div v-on:click="current_stat_view='map'"  v-bind:class="{ selected: current_stat_view=='map' }">Score Map</div>
             </div>
 
-            <match-summary v-if="current_stat_view=='summary'" v-bind:scores="scores" v-bind:match_details="match"></match-summary>
+            <match-summary v-if="current_stat_view=='summary'" v-bind:scores="scores" v-bind:match_details="match" v-on:event-clicked="event_clicked"></match-summary>
 
             <match-score-map v-if="current_stat_view=='map'" v-bind:scores="scores" v-bind:match_details="match"></match-score-map>
 
