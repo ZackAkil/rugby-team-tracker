@@ -35,7 +35,7 @@ Vue.component('match-details', {
                 v-bind:style="{ 'text-decoration-color': match_details.away_team.color}">{{match_details.away_team.name}}</span>
         </h2>
         <h3>
-            <span>{{match_details.date.toDate().toString().split('GMT')[0]}}</span> - <span>{{match_details.location.name}}</span>
+            <span>{{match_details.date.toDate().toString().split('GMT')[0].slice(0, -4)}}</span> - <span>{{match_details.location.name}}</span>
         </h3>
     </div>
     `
