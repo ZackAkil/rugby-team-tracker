@@ -103,10 +103,13 @@ Vue.component('match-summary', {
 
             scores.forEach(score => {
 
-                if (!(score.player.id in output))
-                    output[score.player.id] = { ...score.player, 'scores': [] }
+                const player_id = score.player ? score.player.id : null
 
-                output[score.player.id].scores.push(score)
+
+                if (!(player_id in output))
+                    output[player_id] = { ...score.player, 'scores': [] }
+
+                output[player_id].scores.push(score)
 
             })
 
@@ -157,14 +160,14 @@ Vue.component('match-summary', {
 
         <div class="player_score-lists">
             <div class="score-list home-score-list">
-                <div class="player-score"   v-for="player in home_scores"><h3 class="player-name">{{player.name}}</h3>
+                <div class="player-score"   v-for="player in home_scores"><h3 class="player-name">{{player.name ? player.name : 'Someone'}}</h3>
                     <span v-on:click="jump_to_video(score)" v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}  
                         <span v-if="score.points != 1">+{{score.points}}</span>) </span>
                 </div>
             </div>
             
             <div class="score-list away-score-list">
-                <div class="player-score"  v-for="player in away_scores"><h3 class="player-name">{{player.name}}</h3>
+                <div class="player-score"  v-for="player in away_scores"><h3 class="player-name">{{player.name ? player.name : 'Someone'}}</h3>
                     <span v-on:click="jump_to_video(score)" v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}
                         <span v-if="score.points != 1">+{{score.points}}</span>) </span></span>
                 
