@@ -79,7 +79,7 @@ text-align:center;
     top: 0;
     bottom: 0;
     left: 50%;
-    margin-left: -3px;
+    margin-left: -0.5px;
     z-index:-1;
 }
 `;
