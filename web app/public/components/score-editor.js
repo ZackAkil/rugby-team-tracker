@@ -50,6 +50,7 @@ Vue.component('score-editor', {
         save_event: function (data) {
             console.log('saving event', data.target[0])
             const player_id = document.getElementsByName('player')[0].value
+            const assisting_player_id = document.getElementsByName('assisting_player')[0].value
             const points = document.getElementsByName('points')[0].value
             const distance = document.getElementsByName('distance')[0].value
             const video_seconds_start = document.getElementsByName('segment_start')[0].value
@@ -66,6 +67,7 @@ Vue.component('score-editor', {
 
             const score_data = {
                 'player': player_id ? db.collection("players").doc(player_id) : null,
+                'assisting_player': assisting_player_id ? db.collection("players").doc(assisting_player_id) : null,
                 'points': parseInt(points),
                 'run_distance': parseInt(distance),
                 'video_seconds_start': parseFloat(video_seconds_start),
@@ -91,6 +93,12 @@ Vue.component('score-editor', {
             player <select name="player" v-bind:value="event_to_edit.player ? event_to_edit.player.id : null">
                 <option v-for="player in all_players" v-bind:value="player.id ">{{player.name}}</option>
             </select>
+            <br>
+
+            assisting player <select name="assisting_player" v-bind:value="event_to_edit.assisting_player ? event_to_edit.assisting_player.id : null">
+                <option v-for="player in all_players" v-bind:value="player.id ">{{player.name}}</option>
+            </select>
+
             <br>
             points <input type="number" name="points" value=1
             v-bind:value="event_to_edit.points">
