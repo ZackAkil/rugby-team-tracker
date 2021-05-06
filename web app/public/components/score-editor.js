@@ -61,6 +61,9 @@ Vue.component('score-editor', {
             console.log(player_id, points, distance, video_seconds_start, video_seconds_exact,
                 video_seconds_end, team_home, team_away, score_position)
 
+            const match_id = this.event_to_edit.match_id
+            const video_clip_url = `https://storage.googleapis.com/rugby-app-videos/${match_id}/clips/${match_id}_${parseInt(video_seconds_start)}_${parseInt(video_seconds_end)}.mp4`
+
             const score_data = {
                 'player': player_id ? db.collection("players").doc(player_id) : null,
                 'points': parseInt(points),
@@ -69,7 +72,8 @@ Vue.component('score-editor', {
                 'video_seconds_exact': parseFloat(video_seconds_exact),
                 'video_seconds_end': parseFloat(video_seconds_end),
                 'match_side': team_home ? 'home' : 'away',
-                'score_position': parseInt(score_position)
+                'score_position': parseInt(score_position),
+                'video_clip_url': video_clip_url
             }
 
             save_score_in_firestore(this.event_to_edit.id, score_data)
