@@ -82,6 +82,10 @@ text-align:center;
     margin-left: -0.5px;
     z-index:-1;
 }
+
+.assist{
+    color: gray;
+}
 `;
 document.getElementsByTagName('head')[0].appendChild(style);
 
@@ -93,7 +97,7 @@ Vue.component('match-summary', {
     props: ["scores", "match_details"],
     data: function () {
         return {
-
+            show_assists: true
         }
     },
     methods: {
@@ -158,22 +162,28 @@ Vue.component('match-summary', {
         </div>
 
 
+
         <div class="player_score-lists">
             <div class="score-list home-score-list">
                 <div class="player-score"   v-for="player in home_scores"><h3 class="player-name">{{player.name ? player.name : 'Someone'}}</h3>
                     <span v-on:click="jump_to_video(score)" v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}  
-                        <span v-if="score.points != 1">+{{score.points}}</span>) </span>
+                        <span v-if="score.points != 1">+{{score.points}}</span> <span class="assist" v-if="show_assists && score.assisting_player"> · {{score.assisting_player.name}} </span>) </span>
                 </div>
             </div>
             
             <div class="score-list away-score-list">
                 <div class="player-score"  v-for="player in away_scores"><h3 class="player-name">{{player.name ? player.name : 'Someone'}}</h3>
                     <span v-on:click="jump_to_video(score)" v-for="score in player.scores"> ('{{parseInt(score.video_seconds_exact/60)}}
-                        <span v-if="score.points != 1">+{{score.points}}</span>) </span></span>
+                    <span v-if="score.points != 1">+{{score.points}}</span> <span class="assist" v-if="show_assists && score.assisting_player"> · {{score.assisting_player.name}} </span>) </span>
+
                 
                 </div>
             </div>
         </div>
+
+        <br>
+        <input type="checkbox" name="assists"  v-model="show_assists" checked>
+        <label for="assists">Show assists</label>
 
     </div>
     `
