@@ -67,6 +67,11 @@
             <br><br>
 
             home players
+            <select name="player" value="null">
+                <option value="null">-- ADD PLAYER --</option>
+                <option v-for="player in all_players" v-bind:value="player.id ">{{player.name}}</option>
+            </select>
+            <br>
             <div>
                 <p v-for="player in home_players">{{player}}</p>
             </div>
@@ -116,8 +121,9 @@
             data: {
                 all_teams: [],
                 all_locations: [],
+                all_players: [],
                 home_players: ['a', 'b', 'c'],
-                away_players: ['n','s', 'x'],
+                away_players: ['n', 's', 'x'],
                 new_match: {},
                 match: null,
             },
@@ -134,6 +140,9 @@
 
                 const locations_ref = db.collection('pitches')
                 this.$bind('all_locations', locations_ref)
+
+                const players_ref = db.collection('players')
+                this.$bind('all_players', players_ref)
 
                 // // get scores
                 // const scores_ref = db.collection('scores').where('match_id', '==', match_id)
