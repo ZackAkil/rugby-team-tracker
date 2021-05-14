@@ -166,9 +166,8 @@ function save_score_in_firestore(score_id, score_data) {
 
     return score_ref.update(score_data).then(() => {
         console.log("Document successfully updated!");
-    })
-        .catch((error) => {
-            // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
-        });
+    }).catch((error) => {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });
 }

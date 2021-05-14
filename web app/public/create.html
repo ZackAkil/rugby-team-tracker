@@ -34,38 +34,46 @@
 
             <h3>New match</h3>
 
-            <form>
+            <form v-on:submit.prevent="save_match">
+
+                id <input type="text" name="id" required v-model="new_match.id">
+
+                <br><br>
 
 
-                Home team <select name="home_team" v-bind:value="new_match.home_team ? new_match.home_team.id : null">
+                Home team <select name="home_team" required v-model="new_match.home_team">
                     <option v-for="team in all_teams" v-bind:value="team.id ">{{team.name}}</option>
                 </select>
 
                 <br><br>
 
-                Away team <select name="away_team" v-bind:value="new_match.away_team ? new_match.away_team.id : null">
+                Away team <select name="away_team" required v-model="new_match.away_team">
                     <option v-for="team in all_teams" v-bind:value="team.id ">{{team.name}}</option>
                 </select>
 
                 <br><br>
 
                 Date time
-                <input type="datetime-local" id="time" name="time">
+                <input type="datetime-local" required id="time" name="time" v-model="new_match.date_time">
 
                 <br><br>
 
-                Location <select name="location" v-bind:value="new_match.location ? new_match.location.id : null">
+                Location <select name="location" required v-model="new_match.location">
                     <option v-for="location in all_locations" v-bind:value="location.id ">{{location.name}}</option>
                 </select>
 
                 <br><br>
 
-                video half time <input type="number" name="video_halftime_seconds" min=0
-                    v-bind:value="new_match.video_halftime_seconds">
+                grade <input type="text" required name="grade" v-model="new_match.grade">
 
                 <br><br>
 
-                video gs url <input type="text" name="gs_url" v-bind:value="new_match.gs_url">
+                video half time <input type="number" required name="video_halftime_seconds" min=0
+                    v-model="new_match.video_halftime_seconds">
+
+                <br><br>
+
+                video gs url <input type="text" required name="gs_url" v-model="new_match.gs_url">
 
                 <br><br>
 
@@ -95,6 +103,8 @@
                     <p v-for="player in away_players">{{player.name}} - {{player.id}} <button
                             v-on:click.prevent="remove_away_player(player)">X</button> </p>
                 </div>
+
+                <br>
 
                 <button type="submit" value="Submit">Save</button>
 
@@ -187,6 +197,33 @@
                     if (index > -1) {
                         player_list.splice(index, 1)
                     }
+                },
+                save_match: function (data) {
+                    console.log('saving match...')
+
+                    const match_data = {
+                        'home_team': db.collection("teams").doc(this.new_match.home_team),
+                        'home_team_players': this.home_players.map(player => db.collection("players").doc(player.id)),
+                        'away_team': db.collection("teams").doc(this.new_match.away_team),
+                        'away_team_players': this.away_players.map(player => db.collection("players").doc(player.id)),
+                        'location': db.collection("pitches").doc(this.new_match.location),
+                        'date': this.new_match.date_time,
+                        'grade': this.new_match.grade,
+                        'video_halftime_seconds': this.new_match.video_halftime_seconds,
+                        'video_source': { 'gs_url': this.new_match.gs_url }
+                    }
+
+
+                    var match_ref = db.collection("matches").doc(this.new_match.id)
+
+                    return match_ref.set(match_data).then(() => {
+                        console.log("Document successfully updated!");
+                    }).catch((error) => {
+                        // The document probably doesn't exist.
+                        console.error("Error updating document: ", error);
+                    })
+                    alert('match created, redirecting')
+                    // window.location.href = 'match/' + match_id
                 }
             }
         })
