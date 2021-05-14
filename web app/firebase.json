@@ -8,6 +8,10 @@
     ],
     "rewrites": [
       {
+        "source": "/match/create",
+        "destination": "/create.html"
+      },
+      {
         "source": "/match/*",
         "destination": "/match.html"
       },

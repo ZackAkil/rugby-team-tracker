@@ -1,0 +1,162 @@
+<html lang="en">
+
+<head>
+    <title>FiftyTen</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- <script src="https://www.youtube.com/iframe_api"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/3.0.10/shaka-player.compiled.js"></script> -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-firestore.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.5.1/vue-router.min.js"></script>
+
+    <link href="/styles.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="app">
+
+        <header>
+            <h1>FiftyTen</h1>
+        </header>
+
+        <section>
+
+            <h3>New match</h3>
+
+            Home team <select name="home_team" v-bind:value="new_match.home_team ? new_match.home_team.id : null">
+                <option v-for="team in all_teams" v-bind:value="team.id ">{{team.name}}</option>
+            </select>
+
+            <br><br>
+
+            Away team <select name="away_team" v-bind:value="new_match.away_team ? new_match.away_team.id : null">
+                <option v-for="team in all_teams" v-bind:value="team.id ">{{team.name}}</option>
+            </select>
+
+            <br><br>
+
+            Date time
+            <input type="datetime-local" id="time" name="time">
+
+            <br><br>
+
+            Location <select name="location" v-bind:value="new_match.location ? new_match.location.id : null">
+                <option v-for="location in all_locations" v-bind:value="location.id ">{{location.name}}</option>
+            </select>
+
+            <br><br>
+
+            video half time <input type="number" name="video_halftime_seconds" min=0
+                v-bind:value="new_match.video_halftime_seconds">
+
+            <br><br>
+
+            video src <input type="text" name="gs_url" v-bind:value="new_match.gs_url">
+
+            <br><br>
+
+            home players
+            <div>
+                <p v-for="player in home_players">{{player}}</p>
+            </div>
+
+            <br>
+
+
+            away players
+            <div>
+                <p v-for="player in away_players">{{player}}</p>
+            </div>
+
+            <br><br>
+
+
+
+
+        </section>
+
+    </div>
+
+    <script>
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyCJI2WRy12GqQQnQO4AbamEaiR0zwG8vdw",
+            authDomain: "rugby-video-app.firebaseapp.com",
+            projectId: "rugby-video-app",
+            storageBucket: "rugby-video-app.appspot.com",
+            messagingSenderId: "726446431890",
+            appId: "1:726446431890:web:c4caf3b2f1ca5edc80104b",
+            measurementId: "G-VGCS0MFPZB"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+
+        Vue.use(Vuefire.firestorePlugin)
+
+        var router = new VueRouter({
+            mode: 'history',
+            // routes: { path: '/match/:id', component: test_com}
+        });
+
+        var app = new Vue({
+            router,
+            el: '#app',
+            data: {
+                all_teams: [],
+                all_locations: [],
+                home_players: ['a', 'b', 'c'],
+                away_players: ['n','s', 'x'],
+                new_match: {},
+                match: null,
+            },
+            mounted: function () {
+                // // get match id from query string
+                // // match_id = this.$route.query.match
+                // // get match id from route
+                // match_id = this.$route.path.split('/')[2]
+                // console.log('fetching match data for match', match_id)
+
+
+                const teams_ref = db.collection('teams')
+                this.$bind('all_teams', teams_ref)
+
+                const locations_ref = db.collection('pitches')
+                this.$bind('all_locations', locations_ref)
+
+                // // get scores
+                // const scores_ref = db.collection('scores').where('match_id', '==', match_id)
+                // this.$bind('scores', scores_ref)
+
+            }, methods: {
+                event_clicked: function (event_data) {
+                    // when an event from the timeline is clicked 
+                    // scroll to video
+                    this.current_video_element.scrollIntoView({ 'behavior': 'smooth', 'block': 'center' })
+                    // skip video to point
+                    jump_video_to_time(event_data.video_seconds_start)
+                    // load event in event editor
+                    this.current_event_to_edit = event_data
+                },
+                event_saved: function () {
+                    this.current_event_to_edit = null
+                }
+            }
+        })
+
+    </script>
+
+</body>
+
+</html>
