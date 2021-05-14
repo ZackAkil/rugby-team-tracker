@@ -34,64 +34,71 @@
 
             <h3>New match</h3>
 
-        <form>
+            <form>
 
 
-            Home team <select name="home_team" v-bind:value="new_match.home_team ? new_match.home_team.id : null">
-                <option v-for="team in all_teams" v-bind:value="team.id ">{{team.name}}</option>
-            </select>
+                Home team <select name="home_team" v-bind:value="new_match.home_team ? new_match.home_team.id : null">
+                    <option v-for="team in all_teams" v-bind:value="team.id ">{{team.name}}</option>
+                </select>
 
-            <br><br>
+                <br><br>
 
-            Away team <select name="away_team" v-bind:value="new_match.away_team ? new_match.away_team.id : null">
-                <option v-for="team in all_teams" v-bind:value="team.id ">{{team.name}}</option>
-            </select>
+                Away team <select name="away_team" v-bind:value="new_match.away_team ? new_match.away_team.id : null">
+                    <option v-for="team in all_teams" v-bind:value="team.id ">{{team.name}}</option>
+                </select>
 
-            <br><br>
+                <br><br>
 
-            Date time
-            <input type="datetime-local" id="time" name="time">
+                Date time
+                <input type="datetime-local" id="time" name="time">
 
-            <br><br>
+                <br><br>
 
-            Location <select name="location" v-bind:value="new_match.location ? new_match.location.id : null">
-                <option v-for="location in all_locations" v-bind:value="location.id ">{{location.name}}</option>
-            </select>
+                Location <select name="location" v-bind:value="new_match.location ? new_match.location.id : null">
+                    <option v-for="location in all_locations" v-bind:value="location.id ">{{location.name}}</option>
+                </select>
 
-            <br><br>
+                <br><br>
 
-            video half time <input type="number" name="video_halftime_seconds" min=0
-                v-bind:value="new_match.video_halftime_seconds">
+                video half time <input type="number" name="video_halftime_seconds" min=0
+                    v-bind:value="new_match.video_halftime_seconds">
 
-            <br><br>
+                <br><br>
 
-            video src <input type="text" name="gs_url" v-bind:value="new_match.gs_url">
+                video gs url <input type="text" name="gs_url" v-bind:value="new_match.gs_url">
 
-            <br><br>
+                <br><br>
 
-            home players
-            <select name="player" value="null">
-                <option value="null">-- ADD PLAYER --</option>
-                <option v-for="player in all_players" v-bind:value="player.id ">{{player.name}}</option>
-            </select>
-            <br>
-            <div>
-                <p v-for="player in home_players">{{player}}</p>
-            </div>
+                home players
+                <select name="player" value="null" v-on:change="add_home_player(new_home_player)"
+                    v-model="new_home_player">
+                    <option value="null">-- ADD PLAYER --</option>
+                    <option v-for="player in all_players" v-bind:value="player.id ">{{player.name}}</option>
+                </select>
+                <br>
+                <div>
+                    <p v-for="player in home_players">{{player.name}} - {{player.id}}<button
+                            v-on:click.prevent="remove_home_player(player)">X</button></p>
+                </div>
 
-            <br>
-
-
-            away players
-            <div>
-                <p v-for="player in away_players">{{player}}</p>
-            </div>
-
-            <button type="submit" value="Submit">Save</button>
-
-        </form>
+                <br>
 
 
+                away players
+                <select name="player" value="null" v-on:change="add_away_player(new_away_player)"
+                    v-model="new_away_player">
+                    <option value="null">-- ADD PLAYER --</option>
+                    <option v-for="player in all_players" v-bind:value="player.id ">{{player.name}}</option>
+                </select>
+                <br>
+                <div>
+                    <p v-for="player in away_players">{{player.name}} - {{player.id}} <button
+                            v-on:click.prevent="remove_away_player(player)">X</button> </p>
+                </div>
+
+                <button type="submit" value="Submit">Save</button>
+
+            </form>
 
         </section>
 
@@ -116,7 +123,6 @@
 
         var router = new VueRouter({
             mode: 'history',
-            // routes: { path: '/match/:id', component: test_com}
         });
 
         var app = new Vue({
@@ -126,8 +132,10 @@
                 all_teams: [],
                 all_locations: [],
                 all_players: [],
-                home_players: ['a', 'b', 'c'],
-                away_players: ['n', 's', 'x'],
+                new_home_player: null,
+                new_away_player: null,
+                home_players: [],
+                away_players: [],
                 new_match: {},
                 match: null,
             },
@@ -153,17 +161,32 @@
                 // this.$bind('scores', scores_ref)
 
             }, methods: {
-                event_clicked: function (event_data) {
-                    // when an event from the timeline is clicked 
-                    // scroll to video
-                    this.current_video_element.scrollIntoView({ 'behavior': 'smooth', 'block': 'center' })
-                    // skip video to point
-                    jump_video_to_time(event_data.video_seconds_start)
-                    // load event in event editor
-                    this.current_event_to_edit = event_data
+                add_home_player: function (player_id) {
+                    this.add_player(player_id, this.home_players)
                 },
-                event_saved: function () {
-                    this.current_event_to_edit = null
+                add_away_player: function (player_id) {
+                    this.add_player(player_id, this.away_players)
+                },
+                add_player: function (player_id, player_list) {
+
+                    const new_player = db.collection('players').doc(player_id).get().then((doc) => {
+                        console.log("Cached document data:", doc.data());
+                        player_list.push({ ...doc.data(), 'id': player_id })
+                    }).catch((error) => {
+                        console.log("Error getting cached document:", error);
+                    })
+                },
+                remove_away_player: function (player) {
+                    this.remove_player(player, this.away_players)
+                },
+                remove_home_player: function (player) {
+                    this.remove_player(player, this.home_players)
+                },
+                remove_player: function (player, player_list) {
+                    const index = player_list.indexOf(player)
+                    if (index > -1) {
+                        player_list.splice(index, 1)
+                    }
                 }
             }
         })
