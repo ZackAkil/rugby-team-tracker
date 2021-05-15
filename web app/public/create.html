@@ -78,9 +78,9 @@
                 <br><br>
 
                 home players
-                <select name="player" value="null" v-on:change="add_home_player(new_home_player)"
+                <select name="player" value="" v-on:change="add_home_player(new_home_player)"
                     v-model="new_home_player">
-                    <option value="null">-- ADD PLAYER --</option>
+                    <option value="">-- ADD PLAYER --</option>
                     <option v-for="player in all_players" v-bind:value="player.id ">{{player.name}}</option>
                 </select>
                 <br>
@@ -93,9 +93,9 @@
 
 
                 away players
-                <select name="player" value="null" v-on:change="add_away_player(new_away_player)"
+                <select name="player" value="" v-on:change="add_away_player(new_away_player)"
                     v-model="new_away_player">
-                    <option value="null">-- ADD PLAYER --</option>
+                    <option value="">-- ADD PLAYER --</option>
                     <option v-for="player in all_players" v-bind:value="player.id ">{{player.name}}</option>
                 </select>
                 <br>
@@ -178,13 +178,14 @@
                     this.add_player(player_id, this.away_players)
                 },
                 add_player: function (player_id, player_list) {
-
-                    const new_player = db.collection('players').doc(player_id).get().then((doc) => {
-                        console.log("Cached document data:", doc.data());
-                        player_list.push({ ...doc.data(), 'id': player_id })
-                    }).catch((error) => {
-                        console.log("Error getting cached document:", error);
-                    })
+                    if (player_id) {
+                        const new_player = db.collection('players').doc(player_id).get().then((doc) => {
+                            console.log("Cached document data:", doc.data());
+                            player_list.push({ ...doc.data(), 'id': player_id })
+                        }).catch((error) => {
+                            console.log("Error getting cached document:", error);
+                        })
+                    }
                 },
                 remove_away_player: function (player) {
                     this.remove_player(player, this.away_players)
@@ -207,7 +208,7 @@
                         'away_team': db.collection("teams").doc(this.new_match.away_team),
                         'away_team_players': this.away_players.map(player => db.collection("players").doc(player.id)),
                         'location': db.collection("pitches").doc(this.new_match.location),
-                        'date':  firebase.firestore.Timestamp.fromDate(new Date(this.new_match.date_time)),
+                        'date': firebase.firestore.Timestamp.fromDate(new Date(this.new_match.date_time)),
                         'grade': this.new_match.grade,
                         'video_halftime_seconds': this.new_match.video_halftime_seconds,
                         'video_source': { 'gs_url': this.new_match.gs_url }
