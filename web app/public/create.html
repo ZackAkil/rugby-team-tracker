@@ -207,7 +207,7 @@
                         'away_team': db.collection("teams").doc(this.new_match.away_team),
                         'away_team_players': this.away_players.map(player => db.collection("players").doc(player.id)),
                         'location': db.collection("pitches").doc(this.new_match.location),
-                        'date': this.new_match.date_time,
+                        'date':  firebase.firestore.Timestamp.fromDate(new Date(this.new_match.date_time)),
                         'grade': this.new_match.grade,
                         'video_halftime_seconds': this.new_match.video_halftime_seconds,
                         'video_source': { 'gs_url': this.new_match.gs_url }
