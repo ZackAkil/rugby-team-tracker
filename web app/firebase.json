@@ -12,6 +12,10 @@
         "destination": "/create.html"
       },
       {
+        "source": "/match/list",
+        "destination": "/match_directory.html"
+      },
+      {
         "source": "/match/*",
         "destination": "/match.html"
       },

@@ -1,0 +1,103 @@
+<html lang="en">
+
+<head>
+    <title>FiftyTen</title>
+
+    <meta name="description" content="Tag rugby stats and video analytics">
+    <meta name="keywords" content="tag, rugby, video, analytics, stats">
+    <meta name="robots" content="noindex">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-firestore.js"></script>
+    <script src='https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js'></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.5.1/vue-router.min.js"></script>
+
+    <link href="/styles.css" rel="stylesheet">
+
+    <style>
+
+
+        td{
+            padding:5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <header>
+            <h1>FiftyTen</h1>
+        </header>
+
+        <br>
+
+        <table>
+            <tr v-for="match in matches">
+                <td> {{match.home_team.name}}</td>
+                <td> v </td>
+                <td> {{match.away_team.name}}</td>
+                <td>{{match.location.name}}</td>
+                <td>{{match.date.toDate().toString().split('GMT')[0].slice(0, -4)}}</td>
+                <td><a v-bind:href="'/match/'+match.id">watch</a></td>
+            </tr>
+          </table>
+
+
+    </div>
+
+    <!-- <script src="/components/match-video.js"></script>
+    <script src="/components/match-timeline.js"></script>
+    <script src="/components/match-details.js"></script>
+    <script src="/components/tmo-controls.js"></script> -->
+
+    <script>
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyCJI2WRy12GqQQnQO4AbamEaiR0zwG8vdw",
+            authDomain: "rugby-video-app.firebaseapp.com",
+            projectId: "rugby-video-app",
+            storageBucket: "rugby-video-app.appspot.com",
+            messagingSenderId: "726446431890",
+            appId: "1:726446431890:web:c4caf3b2f1ca5edc80104b",
+            measurementId: "G-VGCS0MFPZB"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const analytics = firebase.analytics();
+
+        Vue.use(Vuefire.firestorePlugin)
+
+        var router = new VueRouter({
+            mode: 'history',
+            // routes: { path: '/match/:id', component: test_com}
+        });
+
+        var app = new Vue({
+            router,
+            el: '#app',
+            data: {
+                matches: []
+            },
+            mounted: function () {
+                this.$bind('matches',  db.collection('matches').where("public", "==", true).orderBy("date", "desc"))
+            }
+        })
+
+    </script>
+
+</body>
+
+</html>
